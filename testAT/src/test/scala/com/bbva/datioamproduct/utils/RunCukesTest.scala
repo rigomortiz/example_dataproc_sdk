@@ -1,4 +1,4 @@
-package com.bbva.datioamproduct.datahubutils
+package com.bbva.datioamproduct.utils
 
 import cucumber.api.CucumberOptions
 import cucumber.api.junit.Cucumber

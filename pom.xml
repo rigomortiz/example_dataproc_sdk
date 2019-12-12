@@ -8,6 +8,7 @@
         <version>0.7.1-2.2.1</version>
     </parent>
 
+
     <groupId>com.bbva.datioamproduct</groupId>
     <artifactId>datahubutils-templateprocessing</artifactId>
     <packaging>pom</packaging>
@@ -16,11 +17,14 @@
     <name>Parent datahubutils-templateprocessing</name>
 
     <properties>
+
         <avro.version>1.7.7</avro.version>
         <datio-spark-utils.version>1.1.0-2.2.1</datio-spark-utils.version>
-        <datio-spark-tests.version>1.1.0-2.2.1</datio-spark-tests.version>
+        <datio-spark-tests.version>1.0.1-2.2.1</datio-spark-tests.version>
         <datio-spark-bdt.version>1.0.0-2.2.1</datio-spark-bdt.version>
         <slf4j.version>1.7.6</slf4j.version>
+        <kirby.version>2.8.0</kirby.version>
+        <databricks.version>4.0.0</databricks.version>
     </properties>
 
     <dependencyManagement>

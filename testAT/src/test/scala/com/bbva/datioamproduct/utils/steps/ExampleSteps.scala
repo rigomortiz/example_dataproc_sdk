@@ -1,4 +1,4 @@
-package com.bbva.datioamproduct.datahubutils.steps
+package com.bbva.datioamproduct.utils.steps
 
 import com.datio.spark.bdt.utils.Common
 import com.typesafe.scalalogging.LazyLogging
