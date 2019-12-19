@@ -59,5 +59,6 @@
 
 <modules>  <module>templateprocessing</module>
     <module>testAT</module>
+    <module>exampleTemplate</module>
   </modules>
 </project>

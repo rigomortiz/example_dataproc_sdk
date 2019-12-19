@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
   (
   "src/test/resources/features/Example.feature"
   ),
-  glue = Array("com.datio.spark.bdt.steps", "com.bbva.datioamproduct.datahubutils.steps"),
+  glue = Array("com.datio.spark.bdt.steps", "com.bbva.datioamproduct.utils.steps"),
   plugin = Array(
     "pretty"
   ),
