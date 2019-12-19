@@ -29,7 +29,7 @@ class ConcreteTransformer(config: Config) extends Transformer[DataReader, DataWr
 
   def getManagerFiltered(dataReader: DataReader): DataFrame = {
 
-    val informationDate = config.getString("app.inputs.manager.information_date")
+    val informationDate = config.getString("appJob.inputs.manager.information_date")
 
     val filterBankingService: Column = col("executive_banking_service_type").isin("PE", "MA", "DO", "ML")
     val filterManagerEmployee: Column = !col("manager_employee_name").like("%WORKSITE%") or
@@ -43,7 +43,7 @@ class ConcreteTransformer(config: Config) extends Transformer[DataReader, DataWr
   }
 
   def getStructureFiltered(dataReader: DataReader): DataFrame = {
-    val cutoffDate = config.getString("app.inputs.structure.cutoff_date")
+    val cutoffDate = config.getString("appJob.inputs.structure.cutoff_date")
 
     val filterCutoffDate: Column = col("cutoff_date") === cutoffDate
     val filterBankingclsfn: Column = col("banking_clsfn_branch_type").isin("E", "G")

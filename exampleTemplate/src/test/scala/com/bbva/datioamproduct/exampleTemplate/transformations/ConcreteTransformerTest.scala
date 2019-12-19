@@ -16,7 +16,7 @@ class ConcreteTransformerTest extends FlatSpec with Matchers with ContextProvide
   it should "return los dataframe filtrados según las condiciones" in {
     val inputCorrect =
       """
-        |app{
+        |appJob{
         |inputs{
         |manager{
         |paths = ["src/test/resources/data/input/t_mdco_tcom_manager"]
