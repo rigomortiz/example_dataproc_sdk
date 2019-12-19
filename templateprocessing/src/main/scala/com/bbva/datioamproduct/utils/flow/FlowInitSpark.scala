@@ -24,6 +24,7 @@ trait FlowInitSpark extends scala.AnyRef with com.datio.spark.SparkLauncher {
     logger.info("Apply transformations")
     val dataWriter = getTranformer().transform(dataReader)
 
+
     logger.info("Apply writter")
     val concreteWriter = new ConcreteWriter(spark,config)
     concreteWriter.write(dataWriter)
