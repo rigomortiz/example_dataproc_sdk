@@ -8,7 +8,6 @@ import org.junit.runner.RunWith
 @CucumberOptions(
   features = Array
   (
-  "src/test/resources/features/Example.feature"
   ),
   glue = Array("com.datio.spark.bdt.steps", "com.bbva.datioamproduct.utils.steps"),
   plugin = Array(
