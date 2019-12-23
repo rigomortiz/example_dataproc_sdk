@@ -9,18 +9,13 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>exampleTemplate</artifactId>
+    <artifactId>datahub-pe-utils</artifactId>
     <packaging>jar</packaging>
     <version>0.1.0-SNAPSHOT</version>
 
-    <name>exampleTemplate module</name>
+    <name>datahub-pe-utils module</name>
 
     <dependencies>
-        <dependency>
-            <groupId>com.bbva.datio.datahub-pe</groupId>
-            <artifactId>datahub-pe-utils</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-        </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.binary.version}</artifactId>
@@ -55,7 +50,7 @@
         <dependency>
             <groupId>com.datio.kirby</groupId>
             <artifactId>kirby-ingestion</artifactId>
-            <version>${kirby.version}</version>
+            <version>2.10.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.guava</groupId>
