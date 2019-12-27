@@ -5,24 +5,23 @@ import org.apache.spark.sql.DataFrame
 class DataWriter  {
   private val output = collection.mutable.Map[String, ItemWriter]()
 
-  def add(name: String, df: DataFrame, validationSchema:Boolean = true): Unit = {
+  def add(name: String, df: DataFrame, valideSchema:Boolean = true): Unit = {
 
-        output += (name ->  ItemWriter(df,validationSchema))
+        output += (name ->  ItemWriter(df,valideSchema))
 
   }
 
-  def get(name: String): DataFrame = {
-    if (!output.contains(name)) {
+  def getItemWriter(name: String): ItemWriter= {
+    if (!contains(name)) {
       throw new RuntimeException("no found dataframe")
     }
-    output.get(name).get.df
+    output.get(name).get
   }
 
-  def valideSchema(name: String) : Boolean ={
-    if (!output.contains(name)) {
-      throw new RuntimeException("no found dataframe")
-    }
 
-    output.get(name).get.schemaValidation
-  }
+  /** Identifica por medio de la key si un elemento se encuentra en el DataReader
+    *
+    * @param keyes la llave de identificación del dataframe
+    * @return contiene un elemento*/
+  def contains(key: String): Boolean = output.contains(key)
 }
