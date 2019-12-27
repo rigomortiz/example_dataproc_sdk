@@ -5,17 +5,19 @@ import org.apache.spark.sql.DataFrame
 class DataWriter  {
   private val output = collection.mutable.Map[String, ItemWriter]()
 
-  def add(name: String, df: DataFrame, valideSchema:Boolean = true): Unit = {
-
-        output += (name ->  ItemWriter(df,valideSchema))
+  def add(key: String, df: DataFrame, valideSchema: Boolean = true): Unit = {
+    if (contains(key)) {
+      throw new RuntimeException("la Key ya esta siendo utilizado por otro DataFrame")
+    }
+    output += (key -> ItemWriter(df, valideSchema))
 
   }
 
-  def getItemWriter(name: String): ItemWriter= {
-    if (!contains(name)) {
-      throw new RuntimeException("no found dataframe")
+  def getItemWriter(key: String): ItemWriter= {
+    if (!contains(key)) {
+      throw new RuntimeException("La Key no existe dentro del DataWriter")
     }
-    output.get(name).get
+    output.get(key).get
   }
 
 
