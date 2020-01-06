@@ -19,12 +19,12 @@ class ConcreteTransformerTest extends FlatSpec with Matchers with ContextProvide
         |appJob{
         |inputs{
         |manager{
-        |paths = ["exampleTemplate/src/test/resources/data/input/t_mdco_tcom_manager"]
+        |paths = ["src/test/resources/data/input/t_mdco_tcom_manager"]
         |type = parquet
         |information_date = "2018-10-23"
         |}
         |structure{
-        |paths = ["exampleTemplate/src/test/resources/data/input/t_mdco_branch_structure"]
+        |paths = ["src/test/resources/data/input/t_mdco_branch_structure"]
         |type = parquet
         |cutoff_date = "2018-09-01"
         |}}}
