@@ -19,7 +19,7 @@ trait FlowInitSpark extends scala.AnyRef with com.datio.spark.SparkLauncher {
     val dataReader = concreteReader.read()
 
     logger.info("Apply transformations")
-    val dataWriter = getTranformer().transform(dataReader)
+    val dataWriter = getTransformer().transform(dataReader)
 
     val concreteSchemaValidator = new ConcreteSchemaValidator(spark, config)
     val dataWriterValidate = concreteSchemaValidator.validate(dataWriter)
@@ -51,5 +51,5 @@ trait FlowInitSpark extends scala.AnyRef with com.datio.spark.SparkLauncher {
     }
   }
 
-  def getTranformer(): Transformer[DataReader, DataWriter]
+  def getTransformer(): Transformer[DataReader, DataWriter]
 }

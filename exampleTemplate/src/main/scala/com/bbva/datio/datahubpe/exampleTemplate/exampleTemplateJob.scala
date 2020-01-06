@@ -7,7 +7,7 @@ import com.bbva.datio.datahubpe.utils.processing.flow.{FlowInitSpark, Transforme
 
 trait exampleTemplateTrait extends FlowInitSpark {
 
-  override def getTranformer(): Transformer[DataReader, DataWriter] = new ConcreteTransformer(config)
+  override def getTransformer(): Transformer[DataReader, DataWriter] = new ConcreteTransformer(config)
 
 
 }

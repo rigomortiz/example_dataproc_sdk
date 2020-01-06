@@ -19,8 +19,6 @@ class DataWriterTest  extends FlatSpec with ContextProvider with Matchers with
            df = spark.createDataFrame(rdd).toDF(columns: _*)
          }
 
-
-
   "Data Writer" should "contain one element " in {
     dataWriter.add("df1", df)
     assert(dataWriter.contains("df1"))

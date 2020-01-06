@@ -19,21 +19,21 @@ class ConcreteTransformerTest extends FlatSpec with Matchers with ContextProvide
         |appJob{
         |inputs{
         |manager{
-        |paths = ["src/test/resources/data/input/t_mdco_tcom_manager"]
+        |paths = ["exampleTemplate/src/test/resources/data/input/t_mdco_tcom_manager"]
         |type = parquet
         |information_date = "2018-10-23"
         |}
         |structure{
-        |paths = ["src/test/resources/data/input/t_mdco_branch_structure"]
+        |paths = ["exampleTemplate/src/test/resources/data/input/t_mdco_branch_structure"]
         |type = parquet
-        |cutoff_date = "2019-09-01"
+        |cutoff_date = "2018-09-01"
         |}}}
           """.stripMargin
     val configFile = ConfigFactory.parseString(inputCorrect)
 
     val concreteReader = new ConcreteReader(spark,configFile).read()
-    concreteTransformer.getManagerFiltered(concreteReader)
-    concreteTransformer.getStructureFiltered(concreteReader)
+    new ManagerFilteredTransformer(config).transform(concreteReader)
+    new StructureFilteredTransformer(config).transform(concreteReader)
     succeed
   }
 
@@ -54,7 +54,7 @@ class ConcreteTransformerTest extends FlatSpec with Matchers with ContextProvide
     val dataManager = spark.createDataFrame(spark.sparkContext.parallelize(data), StructType(schema))
     dataReader.add("managerFiltered", dataManager)
 
-    val df = concreteTransformer.changeExecutiveType(dataReader)
+    val df = new ManagerUpdateBankingServiceByRankTransformer(config).transform(dataReader)
     val datos = df.collect.map(r => (r.getAs[String]("branch_id"),
       r.getAs[String]("executive_banking_service_type")
     )).toMap
@@ -92,7 +92,7 @@ class ConcreteTransformerTest extends FlatSpec with Matchers with ContextProvide
 
     val dataStructure = spark.createDataFrame(spark.sparkContext.parallelize(Structure), StructType(schemaStructure))
     dataReader.add("structureFiltered", dataStructure)
-    val df = concreteTransformer.getJoinManagerStructure(dataReader)
+    val df = new JoinManagerStructureTransformer(config).transform(dataReader)
 
     val datos = df.collect.map(r => (r.getAs[String]("branch_id"),
       r.getAs[String]("manager_id")
