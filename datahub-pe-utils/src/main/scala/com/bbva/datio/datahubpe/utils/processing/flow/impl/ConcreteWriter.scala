@@ -13,7 +13,7 @@ class ConcreteWriter(spark: SparkSession, config: Config) extends Writer[DataWri
     val outputKeyConfigReader = new OutputKeyConfigReader(config)
     outputKeyConfigReader.getKeys().foreach(key => {
       val itemWriter = dataWriter.getItemWriter(key)
-      val outputConf = config.getConfig(s"$outputKeyConfigReader.path.$key")
+      val outputConf = config.getConfig(outputKeyConfigReader.path + "." + key)
       writeDataFrame(itemWriter.df, readOutput(outputConf))
     })
   }

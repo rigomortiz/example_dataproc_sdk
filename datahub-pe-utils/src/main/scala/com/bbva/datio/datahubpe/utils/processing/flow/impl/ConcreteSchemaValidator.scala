@@ -19,7 +19,7 @@ class ConcreteSchemaValidator(spark: SparkSession,
     outputKeyConfigReader.getKeys().foreach(key => {
       val itemWriter = dataWriter.getItemWriter(key)
       if (itemWriter.schemaValidation) {
-        val schemaConf = config.getConfig(s"$outputKeyConfigReader.path.$key.schema")
+        val schemaConf = config.getConfig(outputKeyConfigReader.path + "." + key + ".schema")
         val schema = readSchema(schemaConf, includeMetadata = true).getOrElse(new StructType())
         validateDF(itemWriter.df, schema) match {
           case Invalid(error) => throw new KirbyException(SCHEMA_VALIDATION_ERROR,

@@ -17,7 +17,7 @@ class ConcreteReader(spark: SparkSession, config: Config) extends Reader[DataRea
     val keys = inputConfigReader.getKeys()
 
     keys.foreach(key => {
-      val configInput = config.getConfig(s"$inputConfigReader.path.$key")
+      val configInput = config.getConfig(inputConfigReader.path + "." + key)
       val df = readDataFrame(readInput(configInput))(spark)
       dataReader.add(key, df)
     })
