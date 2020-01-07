@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
     <version>0.1.0</version>
 
-    <name>Parent datahubutils-templateprocessing</name>
+    <name>Parent datahubutils</name>
 
     <properties>
 
