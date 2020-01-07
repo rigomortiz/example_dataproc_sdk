@@ -15,11 +15,11 @@ class ConcreteSchemaValidator(spark: SparkSession,
 
   override def validate(dataWriter: DataWriter): DataWriter = {
 
-    val ouputKeyConfigReader = new OuputKeyConfigReader(config)
-    ouputKeyConfigReader.getKeys().foreach(key => {
+    val outputKeyConfigReader = new OutputKeyConfigReader(config)
+    outputKeyConfigReader.getKeys().foreach(key => {
       val itemWriter = dataWriter.getItemWriter(key)
       if (itemWriter.schemaValidation) {
-        val schemaConf = config.getConfig(s"$ouputKeyConfigReader.path.$key.schema")
+        val schemaConf = config.getConfig(s"$outputKeyConfigReader.path.$key.schema")
         val schema = readSchema(schemaConf, includeMetadata = true).getOrElse(new StructType())
         validateDF(itemWriter.df, schema) match {
           case Invalid(error) => throw new KirbyException(SCHEMA_VALIDATION_ERROR,

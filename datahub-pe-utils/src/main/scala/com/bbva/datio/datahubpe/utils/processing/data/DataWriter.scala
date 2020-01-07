@@ -5,11 +5,11 @@ import org.apache.spark.sql.DataFrame
 class DataWriter  {
   private val output = collection.mutable.Map[String, ItemWriter]()
 
-  def add(key: String, df: DataFrame, valideSchema: Boolean = true): Unit = {
+  def add(key: String, df: DataFrame, validateSchema: Boolean = true): Unit = {
     if (contains(key)) {
       throw new RuntimeException("la Key ya esta siendo utilizado por otro DataFrame")
     }
-    output += (key -> ItemWriter(df, valideSchema))
+    output += (key -> ItemWriter(df, validateSchema))
 
   }
 

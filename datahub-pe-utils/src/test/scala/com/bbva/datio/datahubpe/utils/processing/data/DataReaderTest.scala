@@ -7,7 +7,8 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.{BeforeAndAfter, FlatSpec, Matchers}
 
-@RunWith(classOf[JUnitRunner]) class DataReaderTest extends FlatSpec with ContextProvider with Matchers with
+@RunWith(classOf[JUnitRunner])
+class DataReaderTest extends FlatSpec with ContextProvider with Matchers with
   BeforeAndAfter {
   var df: DataFrame = _
   var dataReader: DataReader = _

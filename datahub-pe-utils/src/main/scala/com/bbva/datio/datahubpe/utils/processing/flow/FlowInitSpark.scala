@@ -21,6 +21,7 @@ trait FlowInitSpark extends scala.AnyRef with com.datio.spark.SparkLauncher {
     logger.info("Apply transformations")
     val dataWriter = getTransformer().transform(dataReader)
 
+    logger.info("Apply Validation")
     val concreteSchemaValidator = new ConcreteSchemaValidator(spark, config)
     val dataWriterValidate = concreteSchemaValidator.validate(dataWriter)
 
