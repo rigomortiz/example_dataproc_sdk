@@ -6,12 +6,12 @@
     <parent>
         <groupId>com.bbva.datio.datahub-pe</groupId>
         <artifactId>datahub-parent</artifactId>
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>datahub-pe-utils</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.1-SNAPSHOT</version>
 
     <name>datahub-pe-utils module</name>
 
