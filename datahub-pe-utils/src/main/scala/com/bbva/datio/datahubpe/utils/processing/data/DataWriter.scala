@@ -21,9 +21,11 @@ class DataWriter  {
   }
 
 
-  /** Identifica por medio de la key si un elemento se encuentra en el DataReader
+  /**
+    * Identifica por medio de la key si un elemento se encuentra en el DataReader
     *
     * @param keyes la llave de identificación del dataframe
-    * @return contiene un elemento*/
+    * @return contiene un elemento
+    */
   def contains(key: String): Boolean = output.contains(key)
 }

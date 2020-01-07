@@ -6,10 +6,12 @@ class DataReader {
   private val input = collection.mutable.Map[String, DataFrame]()
 
 
-  /** Agrega un dataframe a una colección
+  /**
+    * Agrega un dataframe a una colección
     *
     * @param key es la llave de identificación del dataframe
-    * @param df  Dataframe */
+    * @param df  Dataframe
+    */
   def add(key: String, df: DataFrame): Unit = {
     if (contains(key)) {
       throw new RuntimeException("la Key ya esta siendo utilizado por otro DataFrame")
@@ -18,10 +20,12 @@ class DataReader {
     input += (key -> df)
   }
 
-  /** Obtiene un dataframe por su key
+  /**
+    * Obtiene un dataframe por su key
     *
     * @param key es la llave de identificación del dataframe
-    * @return un Dataframe */
+    * @return un Dataframe
+    */
   def get(key: String): DataFrame = {
     if (!contains(key)) {
       throw new RuntimeException("La Key no existe dentro del DataReader")
@@ -29,15 +33,19 @@ class DataReader {
     input.get(key).get
   }
 
-  /** Devuelve el número de elementos
+  /**
+    * Devuelve el número de elementos
     *
-    * @return número de elementos */
+    * @return número de elementos
+    */
   def size(): Int = input.size
 
-  /** Identifica por medio de la key si un elemento se encuentra en el DataReader
+  /**
+    * Identifica por medio de la key si un elemento se encuentra en el DataReader
     *
     * @param keyes la llave de identificación del dataframe
-    * @return contiene un elemento*/
+    * @return contiene un elemento
+    */
   def contains(key: String): Boolean = input.contains(key)
 
 
