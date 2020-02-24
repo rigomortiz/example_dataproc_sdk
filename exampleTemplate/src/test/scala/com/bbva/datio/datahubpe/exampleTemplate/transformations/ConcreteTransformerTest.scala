@@ -9,9 +9,28 @@ import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.scalatest.{FlatSpec, Matchers}
 
 class ConcreteTransformerTest extends FlatSpec with Matchers with ContextProvider {
-  val config = ConfigFactory.defaultApplication()
-  val dataReader = new DataReader()
+  val config              = ConfigFactory.defaultApplication()
+  val dataReader          = new DataReader()
   val concreteTransformer = new ConcreteTransformer(config)
+
+  it should "This succeeds if the assertion holds true for every element" in {
+    val df = spark.createDataFrame(Seq((1L, "a"), (2L, "a"), (3L, "a"))).toDF("id", "noChange")
+    all(df.select("noChange").collect()) should be equals Row("a")
+  }
+
+  it should "some matchers apply collections" in {
+    List(1, 2, 3) shouldBe sorted
+    List(1, 2, 2, 3, 3, 3) should contain inOrderOnly (1, 2, 3)
+    List(0, 1, 2, 2, 99, 3, 3, 3, 5) should contain inOrder (1, 2, 3)
+    List(1, 2, 3) should contain theSameElementsInOrderAs collection.mutable.TreeSet(3, 2, 1)
+    List(1, 2, 3, 4, 5) should contain oneOf (5, 7, 9)
+    List(1, 2, 3, 4, 5) should contain noneOf (7, 8, 9)
+    Some(0) should contain noneOf (7, 8, 9)
+    import org.scalactic.StringNormalizations._
+    val listOfNames = Array("Doe", "Ray", "Me")
+    (listOfNames should contain oneOf ("X", "RAY", "BEAM"))(after being lowerCased)
+    listOfNames should contain("Bob")
+  }
 
   it should "return los dataframe filtrados según las condiciones" in {
     val inputCorrect =
@@ -21,24 +40,24 @@ class ConcreteTransformerTest extends FlatSpec with Matchers with ContextProvide
         |manager{
         |paths = ["src/test/resources/data/input/t_mdco_tcom_manager"]
         |type = parquet
-        |information_date = "2018-10-23"
+        |information_date = 2018-10-25
         |}
         |structure{
         |paths = ["src/test/resources/data/input/t_mdco_branch_structure"]
         |type = parquet
-        |cutoff_date = "2018-09-01"
+        |cutoff_date = 2018-09-05
         |}}}
           """.stripMargin
     val configFile = ConfigFactory.parseString(inputCorrect)
 
-    val concreteReader = new ConcreteReader(spark,configFile).read()
-    new ManagerFilteredTransformer(config).transform(concreteReader)
-    new StructureFilteredTransformer(config).transform(concreteReader)
+    val dataReader = new ConcreteReader(spark, configFile).read()
+
+    new ManagerFilteredTransformer(config).transform(dataReader)
+    new StructureFilteredTransformer(config).transform(dataReader)
     succeed
   }
 
   it should "return valores actualizados según executive_banking_service_type" in {
-
     val data = Seq(
       Row("PE", "0001", "007004"),
       Row("MA", "0001", "007005"),
@@ -55,15 +74,13 @@ class ConcreteTransformerTest extends FlatSpec with Matchers with ContextProvide
     dataReader.add("managerFiltered", dataManager)
 
     val df = new ManagerUpdateBankingServiceByRankTransformer(config).transform(dataReader)
-    val datos = df.collect.map(r => (r.getAs[String]("branch_id"),
-      r.getAs[String]("executive_banking_service_type")
-    )).toMap
+    val datos =
+      df.collect.map(r => (r.getAs[String]("branch_id"), r.getAs[String]("executive_banking_service_type"))).toMap
     datos("0001") shouldBe "MA"
     datos("0002") shouldBe "PE"
   }
 
   it should "return valores solo de la tabla managers y no tenga conexión con strcture" in {
-
     val schemaManager = List(
       StructField("branch_id", StringType, true),
       StructField("manager_id", StringType, true),
@@ -77,7 +94,6 @@ class ConcreteTransformerTest extends FlatSpec with Matchers with ContextProvide
       StructField("cutoff_date", StringType, true)
     )
 
-
     val Manager = Seq(
       Row("0001", "007004", "juan datio", "s", "2018-08-08", "MA", "2018-07-07", "007004", "2019-01-01", "2018-08-23"),
       Row("0002", "007005", "juan datio", "s", "2018-08-08", "PE", "2018-07-07", "007005", "2019-01-01", "2018-08-23"),
@@ -88,19 +104,15 @@ class ConcreteTransformerTest extends FlatSpec with Matchers with ContextProvide
     dataReader.add("managerUpdateBankingServiceByRank", dataManager)
 
     val schemaStructure = List(StructField("branch_id", StringType, true))
-    val Structure = Seq(Row("0001"))
+    val Structure       = Seq(Row("0001"))
 
     val dataStructure = spark.createDataFrame(spark.sparkContext.parallelize(Structure), StructType(schemaStructure))
     dataReader.add("structureFiltered", dataStructure)
     val df = new JoinManagerStructureTransformer(config).transform(dataReader)
 
-    val datos = df.collect.map(r => (r.getAs[String]("branch_id"),
-      r.getAs[String]("manager_id")
-    )).toMap
+    val datos = df.collect.map(r => (r.getAs[String]("branch_id"), r.getAs[String]("manager_id"))).toMap
     datos("0001") shouldBe "007004"
 
     assertResult(1)(df.count)
-
   }
-
 }
