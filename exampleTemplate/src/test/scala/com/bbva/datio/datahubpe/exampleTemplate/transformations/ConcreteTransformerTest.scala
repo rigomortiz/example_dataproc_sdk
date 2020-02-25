@@ -18,20 +18,6 @@ class ConcreteTransformerTest extends FlatSpec with Matchers with ContextProvide
     all(df.select("noChange").collect()) should be equals Row("a")
   }
 
-  it should "some matchers apply collections" in {
-    List(1, 2, 3) shouldBe sorted
-    List(1, 2, 2, 3, 3, 3) should contain inOrderOnly (1, 2, 3)
-    List(0, 1, 2, 2, 99, 3, 3, 3, 5) should contain inOrder (1, 2, 3)
-    List(1, 2, 3) should contain theSameElementsInOrderAs collection.mutable.TreeSet(3, 2, 1)
-    List(1, 2, 3, 4, 5) should contain oneOf (5, 7, 9)
-    List(1, 2, 3, 4, 5) should contain noneOf (7, 8, 9)
-    Some(0) should contain noneOf (7, 8, 9)
-    import org.scalactic.StringNormalizations._
-    val listOfNames = Array("Doe", "Ray", "Me")
-    (listOfNames should contain oneOf ("X", "RAY", "BEAM"))(after being lowerCased)
-    listOfNames should contain("Bob")
-  }
-
   it should "return los dataframe filtrados según las condiciones" in {
     val inputCorrect =
       """

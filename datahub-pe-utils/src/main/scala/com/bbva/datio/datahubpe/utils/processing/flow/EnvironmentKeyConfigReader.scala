@@ -9,6 +9,6 @@ class EnvironmentKeyConfigReader(val config: Config) {
   private final def getKeyRoot: String = config.root().keys.toList.filter(x => x.endsWith("Job")).apply(0)
 
   final def getEnvironmentKey: String = {
-    Try(config.getString(getKeyRoot + "params.environment")).getOrElse(EnvironmentType.Local)
+    Try(config.getString(getKeyRoot + ".params.environment")).getOrElse(EnvironmentType.Local)
   }
 }
