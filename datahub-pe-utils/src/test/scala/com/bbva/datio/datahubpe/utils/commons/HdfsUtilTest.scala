@@ -3,8 +3,8 @@ package com.bbva.datio.datahubpe.utils.commons
 import java.io.{FileNotFoundException, IOException}
 
 import com.bbva.datio.datahubpe.utils.BaseSpec
-import org.scalatest.BeforeAndAfter
-
+import org.scalatest.{BeforeAndAfter, Ignore}
+@Ignore
 class HdfsUtilTest extends BaseSpec with BeforeAndAfter {
   behavior of "Hdfs Util"
   it should " return a list of values from a path" in {
