@@ -35,7 +35,7 @@ class HdfsUtilTest extends BaseSpec with BeforeAndAfter {
     error.getMessage should be("File src/test/resources/data/input/not_valid does not exist")
   }
 
-  it should "produce an exception when directory is empty" in {
+  ignore should "produce an exception when directory is empty" in {
     val path = "src/test/resources/data/input/empty"
 
     val error = intercept[FileNotFoundException] {
