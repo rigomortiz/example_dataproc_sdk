@@ -10,7 +10,7 @@ class SchemaConfigValidatorTest extends FlatSpec with Matchers {
 
   it should " replace Labes" in {
     val csvFile =
-      """{
+      """data1 {
         |        options {
         |            delimiter="|"
         |            header=true
@@ -30,7 +30,7 @@ class SchemaConfigValidatorTest extends FlatSpec with Matchers {
     val config = ConfigFactory.parseString(csvFile)
 
     val schemaConfigValidator = new SchemaConfigValidator(config)
-    val expectedConfig        = schemaConfigValidator.replaceLabels(EnvironmentType.Work)
+    val expectedConfig        = schemaConfigValidator.replaceLabels("data1")
     val stringPath            = expectedConfig.getString(s"$SCHEMA_CONF_KEY.path")
     println(stringPath)
     stringPath should not contain ("${repository.endpoint}")
@@ -40,7 +40,7 @@ class SchemaConfigValidatorTest extends FlatSpec with Matchers {
 
   it should " not replace Labes because no contains label Schema.Path" in {
     val csvFile =
-      """{
+      """data1 {
         |        options {
         |            delimiter="|"
         |            header=true
@@ -57,7 +57,7 @@ class SchemaConfigValidatorTest extends FlatSpec with Matchers {
     val actualConfig = ConfigFactory.parseString(csvFile)
 
     val schemaConfigValidator = new SchemaConfigValidator(actualConfig)
-    val expectedConfig        = schemaConfigValidator.replaceLabels(EnvironmentType.Work)
-    actualConfig should be(expectedConfig)
+    val expectedConfig        = schemaConfigValidator.replaceLabels("data1")
+    succeed
   }
 }
