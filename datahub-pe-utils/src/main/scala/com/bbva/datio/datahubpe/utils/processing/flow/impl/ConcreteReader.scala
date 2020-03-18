@@ -12,17 +12,12 @@ class ConcreteReader(spark: SparkSession, config: Config) extends Reader[DataRea
   private val dataReader: DataReader = new DataReader()
 
   override def read(): DataReader = {
-    val inputConfigReader       = new InputKeyConfigReader(config)
-    val keys                    = inputConfigReader.getKeys()
-    val schemaConfigValidator   = new SchemaConfigValidator
-    val environmentConfigReader = new EnvironmentKeyConfigReader(config)
-    val environmentType         = environmentConfigReader.getEnvironmentKey
+    val inputConfigReader     = new InputKeyConfigReader(config)
+    val keys                  = inputConfigReader.getKeys()
+    val schemaConfigValidator = new SchemaConfigValidator(config)
     keys.foreach(key => {
-      val configInput = config.getConfig(inputConfigReader.path + "." + key)
-
-      val acceptableConfigInput = schemaConfigValidator.replaceLabels(configInput, environmentType)
-
-      val df = readDataFrame(readInput(acceptableConfigInput))(spark)
+      val configInput = schemaConfigValidator.replaceLabels(inputConfigReader.path + "." + key)
+      val df          = readDataFrame(readInput(configInput))(spark)
       dataReader.add(key, df)
     })
 

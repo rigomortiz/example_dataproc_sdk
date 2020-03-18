@@ -5,7 +5,6 @@ import org.apache.spark.sql.DataFrame
 class DataReader {
   private val input = collection.mutable.Map[String, DataFrame]()
 
-
   /**
     * Agrega un dataframe a una colección
     *
@@ -43,10 +42,8 @@ class DataReader {
   /**
     * Identifica por medio de la key si un elemento se encuentra en el DataReader
     *
-    * @param keyes la llave de identificación del dataframe
+    * @param key la llave de identificación del dataframe
     * @return contiene un elemento
     */
   def contains(key: String): Boolean = input.contains(key)
-
-
 }

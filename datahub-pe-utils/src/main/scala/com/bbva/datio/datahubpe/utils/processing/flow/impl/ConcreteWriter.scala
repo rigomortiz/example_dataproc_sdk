@@ -10,16 +10,14 @@ import org.apache.spark.sql.SparkSession
 
 class ConcreteWriter(spark: SparkSession, config: Config) extends Writer[DataWriter] with OutputFactory with CheckFlow {
   override def write(dataWriter: DataWriter): Unit = {
-    val outputKeyConfigReader   = new OutputKeyConfigReader(config)
-    val schemaConfigValidator   = new SchemaConfigValidator
-    val environmentConfigReader = new EnvironmentKeyConfigReader(config)
-    val environmentType         = environmentConfigReader.getEnvironmentKey
+    val outputKeyConfigReader = new OutputKeyConfigReader(config)
+    val schemaConfigValidator = new SchemaConfigValidator(config)
     outputKeyConfigReader
       .getKeys()
       .foreach(key => {
         val itemWriter           = dataWriter.getItemWriter(key)
-        val outputConf           = config.getConfig(outputKeyConfigReader.path + "." + key)
-        val acceptableOutputConf = schemaConfigValidator.replaceLabels(outputConf, environmentType)
+        val acceptableOutputConf = schemaConfigValidator.replaceLabels(outputKeyConfigReader.path + "." + key)
+
         writeDataFrame(itemWriter.df, readOutput(acceptableOutputConf))
       })
   }

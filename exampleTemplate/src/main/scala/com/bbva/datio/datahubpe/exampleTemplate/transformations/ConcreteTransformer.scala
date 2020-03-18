@@ -17,7 +17,7 @@ class ConcreteTransformer(config: Config) extends Transformer[DataReader, DataWr
       new ManagerUpdateBankingServiceByRankTransformer(config)
         .transform(dataReader)
     )
-    dataWriter.add("beygmanager1", new JoinManagerStructureTransformer(config).transform(dataReader), false)
+    dataWriter.add("beygmanager1", new JoinManagerStructureTransformer(config).transform(dataReader), true)
     dataWriter
   }
 }
