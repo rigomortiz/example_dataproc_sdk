@@ -10,10 +10,10 @@ import org.apache.spark.sql.expressions.Window.orderBy
 import org.apache.spark.sql.functions.{col, lit, row_number}
 
 object HdfsUtil {
-  private val PartitionDate     = "partition_date"
+  private val PartitionDate = "partition_date"
   private val PartitionSortDate = "partition_sort_date"
-  val FormatDate                = "date"
-  val FormatHyphenDate          = "yyyy-MM-dd"
+  val FormatDate = "date"
+  val FormatHyphenDate = "yyyy-MM-dd"
 
   /** Obtiene la fecha de la ultima particion disponible de un ruta hdfs
     *
@@ -46,13 +46,13 @@ object HdfsUtil {
   }
 
   /**
-    * Function to write parquet when it's necesary a reprocess.
+    * return a value True if the path exists
     *
     * @return Boolean (true: path hdfs exist)
     */
   def existPath(spark: SparkSession, stringPath: String): Boolean = {
     val hadoopFileSystem = createFileSystem(spark)
-    val path             = createPath(stringPath)
+    val path = createPath(stringPath)
 
     hadoopFileSystem.getFileStatus(path).isDirectory
   }
@@ -63,7 +63,7 @@ object HdfsUtil {
     * @return retorna verdadero si elimino el path
     */
   def deletePath(spark: SparkSession, stringPath: String): Boolean = {
-    val hdfsPath   = createPath(stringPath)
+    val hdfsPath = createPath(stringPath)
     val fileSystem = createFileSystem(spark)
     fileSystem.delete(hdfsPath, true)
   }
@@ -73,21 +73,21 @@ object HdfsUtil {
   }
 
   /***
-    *  crea un file sustem hadoop
-    * @param spark session de spark
-    * @return
+    *  create a hadoop file system
+    * @param spark session of spark
+    * @return a fylesystem
     */
   def createFileSystem(spark: SparkSession): FileSystem = {
     val hadoopConfig = spark.sparkContext.hadoopConfiguration
     FileSystem.get(hadoopConfig)
   }
 
-  /** Obtiene una lista con las particiones de una ruta hdfs
+  /** Get list with partitions of hdfs path
     *
-    * @param spark Session de spark
-    * @param path Ruta donde se encuentran las particiones
-    * @param partition Nombre del campo de particion
-    * @return Lista con las particiones de la ruta ingresada
+    * @param spark  session of spark
+    * @param path Path where the partitions are located
+    * @param partition Partition field name
+    * @return List with the partitions of the entered route
     */
   def listPartitionValues(spark: SparkSession, path: String, partition: String): Seq[String] = {
     existPath(spark, path)
@@ -95,7 +95,7 @@ object HdfsUtil {
     val fileSystem = createFileSystem(spark)
     val parentPath = createPath(path)
 
-    val files                       = fileSystem.listStatus(parentPath)
+    val files = fileSystem.listStatus(parentPath)
     val listFilesNames: Seq[String] = files.map(_.getPath().toString)
 
     if (listFilesNames.isEmpty) {

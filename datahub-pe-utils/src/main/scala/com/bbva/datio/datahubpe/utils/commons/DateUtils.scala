@@ -4,8 +4,8 @@ import java.util.{Calendar, Date}
 
 object DateUtils {
   implicit class DateImplicits(value: Date) {
-    val MONTH       = Calendar.MONTH
-    val DATE: Int   = Calendar.DATE
+    val MONTH = Calendar.MONTH
+    val DATE: Int = Calendar.DATE
     val SECOND: Int = Calendar.SECOND
 
     /**
@@ -37,7 +37,7 @@ object DateUtils {
     /**
       * @param field  the calendar field.
       * @param amount the amount of date or time to be added to the field.
-      * @return
+      * @return a date
       */
     def add(field: Int, amount: Int): Date = {
       val calendar = Calendar.getInstance()
@@ -46,12 +46,21 @@ object DateUtils {
       calendar.getTime()
     }
 
+    /***
+      * get the first day of month
+      * @return a date
+      */
     def getFirstDayOfMonth(): Date = {
       val calendar = Calendar.getInstance()
       calendar.setTime(value)
       calendar.set(DATE, calendar.getMinimum(DATE))
       calendar.getTime()
     }
+
+    /***
+      * get the last day of month
+      * @return a date
+      */
     def getLastDayOfMonth(): Date = {
       val calendar = Calendar.getInstance()
       calendar.setTime(value)
