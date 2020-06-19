@@ -2,11 +2,11 @@
 
 Using this object will allow you to work with some Date operations, below you can find each function explained:
 
-###addMonths
+### addMonths
 ____
 Adds or subtracts the specified amount of months for example, to subtract 5 days from the current time, you can achieve it by calling:
 
-####usage   
+#### usage   
    ```scala
    import com.bbva.datio.datahubpe.utils.commons.DateUtils.DateImplicits
    date.addMonths(-5)
@@ -18,11 +18,11 @@ This will return a Date
 |-------------|---------------|
 |amount|the amount of months to be added to Date
 
-###addDays
+### addDays
 ____
 Adds or subtracts the specified amount of dates for example, to subtract 5 days from the current time, you can achieve it by calling:
 
-####usage
+#### usage
       
 ```scala
    import com.bbva.datio.datahubpe.utils.commons.DateUtils.DateImplicits
@@ -35,11 +35,11 @@ This will return a Date
 |-------------|---------------|
 |amount|the amount of months to be added to Date|
 
-###add
+### add
 ____
 Adds or subtracts the specified amount of field for example, to subtract 5 days from the current time, you can achieve it by calling:
 
-####usage
+#### usage
       
 ```scala
    import com.bbva.datio.datahubpe.utils.commons.DateUtils.DateImplicits
@@ -56,10 +56,10 @@ This will return a Date
 |field|field  the calendar field.|
 |amount|the amount of field to be added to Date|
 
-###getFirstDayOfMonth
+### getFirstDayOfMonth
 ____
 Get the first day of month       
-####usage
+#### usage
 
 ```scala
    import com.bbva.datio.datahubpe.utils.commons.DateUtils.DateImplicits
@@ -68,11 +68,11 @@ Get the first day of month
       
 This will return a Date   
 
-###getLastDayOfMonth
+### getLastDayOfMonth
 ____
 Get the last day of month
 
-####usage       
+#### usage       
 
 ```scala
    import com.bbva.datio.datahubpe.utils.commons.DateUtils.DateImplicits

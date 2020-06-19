@@ -50,7 +50,7 @@ After this you must write your configuration file with the following tags:
    }
    
 ```
-###Schema Configuration
+### Schema Configuration
 ____
 
 First of all ,you must have the schemas in artifactory,After that you must add these variables before the schema path
@@ -59,19 +59,19 @@ First of all ,you must have the schemas in artifactory,After that you must add t
 
 To configure the artifactory environments you need to set this tag
 
-####live
+#### live
  ```editorconfig
     params{
      environment="live"
     }
 ```
-####work
+#### work
  ```editorconfig
     params{
      environment="work"
     }
 ```
-####local
+#### local
  ```editorconfig
     params{
      environment="local"

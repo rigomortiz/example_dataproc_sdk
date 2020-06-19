@@ -2,11 +2,11 @@
 
 Using this object will allow you to work with some strings operations, below you can find each function explained:
 
-###padRigth
+### padRigth
 ____
 Pads rigth a string with a element
 
-####usage   
+#### usage   
    ```scala
     import com.bbva.datio.datahubpe.utils.commons.StringUtils.StringImplicits
      val string: String = "1"
@@ -21,13 +21,13 @@ This will return a string
 |element|element|
 
 
-###padLeft
+### padLeft
 ____
 
 Pads left a string ith a element
  
 
-####usage
+#### usage
       
 ```scala
    import com.bbva.datio.datahubpe.utils.commons.StringUtils.StringImplicits
@@ -42,11 +42,11 @@ This will return a boolean
 |length|The new (minimum) length of the string|
 |element|element|
 
-###asList
+### asList
 ____
 
 Return a List of elements separeted with  ,
-####usage
+#### usage
       
 ```scala
    import com.bbva.datio.datahubpe.utils.commons.StringUtils.StringImplicits
@@ -60,11 +60,11 @@ This will return a list
 
 
 
-###ToDate
+### ToDate
 ____
 Convert a string a Date with a long format  
 
-####usage
+#### usage
 
 ```scala
            import com.bbva.datio.datahubpe.utils.commons.StringUtils.StringImplicits
@@ -76,11 +76,11 @@ Convert a string a Date with a long format
 This will return a list of partitions
 
 
-###ToDate
+### ToDate
 ____
 Convert a string a Date with a format  
 
-####usage
+#### usage
 
 ```scala
     import com.bbva.datio.datahubpe.utils.commons.StringUtils.StringImplicits

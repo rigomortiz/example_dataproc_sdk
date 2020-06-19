@@ -11,15 +11,15 @@ trait FlowInitSpark extends scala.AnyRef with com.datio.spark.SparkLauncher {
     implicit val spark: SparkSession = sparkT
 
     logger.info("Reading input")
-    val concreteReader = new ConcreteReader(spark, config)
-    val dataReader     = concreteReader.read()
+    val concreteReader = getReader(spark, config)
+    val dataReader = concreteReader.read()
 
     logger.info("Apply transformations")
     val dataWriter = getTransformer(config).transform(dataReader)
 
     logger.info("Apply Validation")
     val concreteSchemaValidator = new ConcreteSchemaValidator(spark, config)
-    val dataWriterValidate      = concreteSchemaValidator.validate(dataWriter)
+    val dataWriterValidate = concreteSchemaValidator.validate(dataWriter)
 
     logger.info("Apply writter")
     val concreteWriter = new ConcreteWriter(spark, config)
@@ -52,4 +52,7 @@ trait FlowInitSpark extends scala.AnyRef with com.datio.spark.SparkLauncher {
   }
 
   def getTransformer(config: Config): Transformer[DataReader, DataWriter]
+
+  protected def getReader(spark: SparkSession, config: Config): Reader[DataReader] =
+    new ConcreteReader(spark, config)
 }

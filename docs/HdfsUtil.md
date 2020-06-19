@@ -2,11 +2,11 @@
 
 Using this object will allow you to work with some Hdfs operations, below you can find each function explained:
 
-###getLastPartition
+### getLastPartition
 ____
 Get the date of the last available partition of an hdfs path
 
-####usage   
+#### usage   
    ```scala
     import com.bbva.datio.datahubpe.utils.commons.HdfsUtil
     val path               = "src/test/resources/data/input/t_mdco_branch_structure"
@@ -24,12 +24,12 @@ This will return a Date in format string
 |date|check limit to get partition.
 
 
-###existPath
+### existPath
 ____
 return a value True if the path exists
  
 
-####usage
+#### usage
       
 ```scala
      import com.bbva.datio.datahubpe.utils.commons.HdfsUtil
@@ -43,10 +43,10 @@ This will return a boolean
 |-------------|---------------|
 |path|path to evaluate|
 
-###deletePath
+### deletePath
 ____
 Delete a path of hdfs
-####usage
+#### usage
       
 ```scala
      import com.bbva.datio.datahubpe.utils.commons.HdfsUtil
@@ -62,11 +62,11 @@ This will return a boolean, true if delete path
 |path|path to delete|
 
 
-###listPartitionValues
+### listPartitionValues
 ____
 Get a list of partitions from an hdfs path   
 
-####usage
+#### usage
 
 ```scala
      val path = "src/test/resources/data/input/empty"
