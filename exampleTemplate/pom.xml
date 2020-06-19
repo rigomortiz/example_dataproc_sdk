@@ -11,7 +11,7 @@
 
     <artifactId>exampleTemplate</artifactId>
     <packaging>jar</packaging>
-    <version>0.3.3-SNAPSHOT</version>
+    <version>0.3.4-SNAPSHOT</version>
 
     <name>exampleTemplate module</name>
 
