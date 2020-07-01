@@ -1,5 +1,5 @@
 {
-  "jobName": "mdco-pe-spk-biz-createjobqa-01",
+  "jobName": "pdco-pe-spk-biz-createjobqa-01",
   "jobVersion": "0.1.0",
   "runtime": {
     "id": "spark",
