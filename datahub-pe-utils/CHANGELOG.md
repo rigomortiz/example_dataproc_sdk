@@ -1,6 +1,12 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [0.3.4] - 2020-06-19
+
+### Added
+
+- add Method getReader to FlowInitSpark 
+
 
 ## [0.3.3] - 2020-04-01
 
@@ -13,6 +19,7 @@ All notable changes to this project will be documented in this file.
 4. createPath
 5. createFileSystem
 6. listPartitionValues
+
 ## [0.3.1] - 2020-02-25
 
 ### Added

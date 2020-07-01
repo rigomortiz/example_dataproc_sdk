@@ -1,0 +1,19 @@
+{
+  "jobName": "mdco-pe-spk-biz-createjobqa-01",
+  "jobVersion": "0.1.0",
+  "runtime": {
+    "id": "spark",
+    "version": "2.2.1"
+  },
+  "description": "job fortest processing job creation from jenkins pipeline",
+  "configuration": {
+    "size": "XS",
+    "params": {
+      "sparkHistoryEnabled": "true",
+      "artifactUrl": "${repository.endpoint}/${repository.environment}/com/bbva/datio/datahub-pe/exampleTemplate/${version}/exampleTemplate-${version}-jar-with-dependencies.jar",
+      "configUrl": "${repository.endpoint}/${repository.environment}/com/bbva/datio/datahub-pe/exampleTemplate/${version}/exampleTemplate.conf",
+      "mainClass": "com.bbva.datio.datahubpe.exampleTemplate.exampleTemplateJob",
+      "repoSecurity": "artifactory"
+    }
+  }
+}
