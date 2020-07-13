@@ -1,11 +1,11 @@
 {
-  "jobName": "pdco-pe-spk-biz-exampletemplate-01",
+  "jobName": "pdco-pe-spk-biz-examplevideo-01",
   "jobVersion": "0.1.0",
   "runtime": {
     "id": "spark",
     "version": "2.2.1"
   },
-  "description": "job for test processing job creation from jenkins pipeline",
+  "description": "job for video processing job creation from jenkins pipeline",
   "configuration": {
     "size": "XS",
     "params": {
