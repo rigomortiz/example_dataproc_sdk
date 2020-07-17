@@ -1,8 +1,9 @@
 {
-  "jobName": "pdco-pe-spk-biz-examplevideo-01",
+  "jobName": "pdco-pe-spk-biz-exampletemplatenew-01",
   "jobVersion": "0.1.0",
   "runtime": {
     "id": "spark",
+    "processing": "batch",
     "version": "2.2.1"
   },
   "description": "job for video processing job creation from jenkins pipeline",
@@ -17,3 +18,8 @@
     }
   }
 }
+
+
+
+
+
