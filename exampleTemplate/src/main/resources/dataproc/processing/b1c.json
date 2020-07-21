@@ -12,7 +12,7 @@
 		"params":
 		{
 			"imageUri": "artifactory-flegetonte.live.mx.ether.igrupobbva/docker-repo/pylls/engine/crryp/crryp_datio_b8_b9_agreg_geografias:0.4.1",
-			"configUrl": "${repository.endpoint}/${repository.environment}/com/bbva/datio/datahubpe/rorc/rorcLib/${version}/app_b1c.conf",
+			"configUrl": "${repository.endpoint}/${repository.environment}/com/bbva/datio/datahubpe/rorc/rorcLib/${version}/app_bc.conf",
 			"sparkHistoryEnabled": "true",
 			"repoSecurity": "artifactory"
 		}
