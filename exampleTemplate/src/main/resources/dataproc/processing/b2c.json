@@ -1,18 +1,18 @@
 ﻿{
-	"jobName": "krro-pe-psp-inm-dataprocbc-01",
+	"jobName": "krro-pe-psp-inm-dataprocb2c-01",
 	"jobVersion": "1.0",
 	"runtime":
 	{
 		"id": "pyspark"
 	},
-	"description": "spark_python_dataproc_b8_and_b9_geografies - Profitability operation attributes",
+	"description": "spark_python_dataproc_b8_and_b9_geografies - Profitability client attributes",
 	"configuration":
 	{
 		"size": "L",
 		"params":
 		{
 			"imageUri": "artifactory-flegetonte.live.mx.ether.igrupobbva/docker-repo/pylls/engine/crryp/crryp_datio_b8_b9_agreg_geografias:0.4.1",
-			"configUrl": "${repository.endpoint}/${repository.environment}/com/bbva/datio/datahubpe/rorc/rorcLib/${version}/app_bc.conf",
+			"configUrl": "${repository.endpoint}/${repository.environment}/com/bbva/datio/datahubpe/rorc/rorcLib/${version}/app_b2c.conf",
 			"sparkHistoryEnabled": "true",
 			"repoSecurity": "artifactory"
 		}
