@@ -61,5 +61,6 @@
     <module>datahub-pe-utils</module>
     <module>testAT</module>
     <module>exampleTemplate</module>
-  </modules>
+    <module>test1</module>
+</modules>
 </project>
