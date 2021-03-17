@@ -18,7 +18,7 @@ class ConcreteWriter(spark: SparkSession, config: Config) extends Writer[DataWri
         val itemWriter           = dataWriter.getItemWriter(key)
         val acceptableOutputConf = schemaConfigValidator.replaceLabels(outputKeyConfigReader.path + "." + key)
 
-        writeDataFrame(itemWriter.df, readOutput(acceptableOutputConf))
+        writeDataFrame(itemWriter.df, readOutput(acceptableOutputConf),itemWriter.df.schema)
       })
   }
 }

@@ -19,7 +19,7 @@
     <properties>
 
         <avro.version>1.7.7</avro.version>
-        <datio-spark-utils.version>1.1.0-2.2.1</datio-spark-utils.version>
+        <datio-spark-utils.version>2.0.5-2.2.1</datio-spark-utils.version>
         <datio-spark-tests.version>1.0.1-2.2.1</datio-spark-tests.version>
         <datio-spark-bdt.version>1.0.0-2.2.1</datio-spark-bdt.version>
         <slf4j.version>1.7.6</slf4j.version>
