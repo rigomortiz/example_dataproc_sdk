@@ -50,7 +50,7 @@
         <dependency>
             <groupId>com.datio.kirby</groupId>
             <artifactId>kirby-ingestion</artifactId>
-            <version>2.10.0</version>
+            <version>2.12.6</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.guava</groupId>
