@@ -1,6 +1,12 @@
 # Changelog
-
 All notable changes to this project will be documented in this file.
+## [0.3.5] - 2020-06-19
+
+### Added
+
+- update kirby version to 2.12.6
+  
+  
 ## [0.3.4] - 2020-06-19
 
 ### Added
