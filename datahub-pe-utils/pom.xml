@@ -11,7 +11,7 @@
 
     <artifactId>datahub-pe-utils</artifactId>
     <packaging>jar</packaging>
-    <version>0.3.5-SNAPSHOT</version>
+    <version>0.3.6-SNAPSHOT</version>
 
     <name>datahub-pe-utils module</name>
 

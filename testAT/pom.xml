@@ -6,12 +6,12 @@
     <parent>
         <groupId>com.bbva.datio.datahub-pe</groupId>
         <artifactId>datahub-parent</artifactId>
-        <version>0.3.5-SNAPSHOT</version>
+        <version>0.3.6-SNAPSHOT</version>
     </parent>
 
     <artifactId>testAT</artifactId>
     <packaging>jar</packaging>
-    <version>0.3.5-SNAPSHOT</version>
+    <version>0.3.6-SNAPSHOT</version>
 
     <name>datahubutils-templateprocessing Acceptance Tests</name>
 
