@@ -20,7 +20,7 @@
         <dependency>
             <groupId>com.bbva.datio.datahub-pe</groupId>
             <artifactId>datahub-pe-utils</artifactId>
-            <version>0.3.6-SNAPSHOT</version>
+            <version>${parent.version}</version>
         </dependency>
 
         <dependency>
