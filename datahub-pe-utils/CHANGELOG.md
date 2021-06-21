@@ -1,5 +1,23 @@
 # Changelog
 All notable changes to this project will be documented in this file.
+## [0.3.8] - 2021-06-21
+
+### Added
+
+- add scalafmt.conf in project
+
+## [0.3.7] - 2021-04-30
+
+### Added
+
+- fix has Path in ConcreteSchemaReader
+
+## [0.3.6] - 2021-04-30
+
+### Added
+
+- fix has Path in ConcreteSchemaReader
+
 ## [0.3.5] - 2021-03-19
 
 ### Added
