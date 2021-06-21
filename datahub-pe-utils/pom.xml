@@ -133,6 +133,22 @@
                     <configLocation>${project.parent.basedir}</configLocation>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+                <version>${scoverage.plugin.version}</version>
+                <configuration>
+                    <aggregate>true</aggregate>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>report</goal> <!-- or integration-check -->
+                        </goals>
+                        <phase>test</phase> <!-- or any other phase -->
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - add scalafmt.conf in project
+- add plugin coverage
 
 ## [0.3.7] - 2021-04-30
 
