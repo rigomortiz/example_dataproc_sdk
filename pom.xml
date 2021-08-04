@@ -18,6 +18,11 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+            <dependency>
                 <groupId>com.datio.dataproc.sdk</groupId>
                 <artifactId>dataproc-sdk-bom</artifactId>
                 <version>0.2.4-2.4</version>
