@@ -36,7 +36,7 @@
             "legacyName": "year",
             "logicalFormat": "NUMERIC SHORT",
             "deleted": false,
-            "metadata": true,
+            "metadata": false,
             "default": ""
         }, {
             "name": "trending_date",
