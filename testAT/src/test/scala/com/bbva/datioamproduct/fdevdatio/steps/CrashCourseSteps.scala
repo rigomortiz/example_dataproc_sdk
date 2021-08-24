@@ -3,9 +3,12 @@ package com.bbva.datioamproduct.fdevdatio.steps
 import java.nio.file.Files._
 import java.nio.file.Paths
 import com.datio.dataproc.sdk.launcher.SparkLauncher
+import io.cucumber.datatable.DataTable
 import io.cucumber.scala.{EN, ScalaDsl}
+import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.scalatest.Matchers
+import scala.collection.JavaConversions.asScalaBuffer
 import scala.util.Try
 
 class CrashCourseSteps extends ScalaDsl with EN with Matchers {
@@ -139,6 +142,25 @@ class CrashCourseSteps extends ScalaDsl with EN with Matchers {
           case "less than" => df1Columns should be < numberOfColumns
           case "more than" => df1Columns should be > numberOfColumns
         }
+      }
+  }
+
+  Then("""^records for (\S+) dataframe in column (\S+) (have|do not have) the following values:$""") {
+    (dfName: String, columnName: String, condition: String, dataTable: DataTable) =>
+
+      val VALUES = "values"
+      val data = dataTable.asMaps()
+      val values: Seq[String] = data.map(_.get(VALUES))
+
+      val count = testData(dfName).count
+
+      val filterCount = condition match {
+        case "have" => testData(dfName).filter(col(columnName).isin(values: _*)).count
+        case "do not have" => testData(dfName).filter(!col(columnName).isin(values: _*)).count
+      }
+
+      withClue(s"Number of records with values in catalog ${values.toString}: $filterCount of $count") {
+        count shouldBe filterCount
       }
   }
 
