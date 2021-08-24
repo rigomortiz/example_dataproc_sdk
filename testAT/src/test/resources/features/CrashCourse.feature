@@ -28,3 +28,21 @@ Feature: Validate the trending top output when parameters top, country and year 
       """
     When Executing the Launcher
     Then The exit code should be 0
+
+  Scenario Outline: Validate the output has the top 10 for each category
+    Given a dataframe located at path src/test/resources/output/t_fdev_trending with alias trendingDf
+    When I read trendingDf as dataframe
+    And I filter trendingDf dataframe with filter <filter> and save it as <alias>
+    Then records for <alias> dataframe are equal to 5
+
+    Examples:
+      | filter             | alias    |
+      | category_event = 1 | viewedDf |
+      | category_event = 2 | likedDf  |
+      | category_event = 3 | hatedDf  |
+
+  Scenario: The output has the correct structure and it is not empty for the filters
+    Given a dataframe located at path src/test/resources/output/t_fdev_trending with alias trendingDf
+    When I read trendingDf as dataframe
+    Then trendingDf dataframe is not empty
+    And the number of columns for trendingDf dataframe is equal to 13
