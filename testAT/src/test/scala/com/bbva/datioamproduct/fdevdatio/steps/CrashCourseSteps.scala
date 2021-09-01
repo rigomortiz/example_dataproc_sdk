@@ -21,10 +21,10 @@ class CrashCourseSteps extends ScalaDsl with EN with Matchers {
   private var givenConfigPath = ""
   private var executionExitCode = -1
   private val datioSpark: DatioSparkSession = DatioSparkSession.getOrCreate()
-  private val DEF = "DEF"
-  private var tables: Map[String, String] = Map(DEF -> "no_path")
-  private var schemas: Map[String, String] = Map(DEF -> "no_schema")
-  private var testData: Map[String, DataFrame] = Map(DEF -> datioSpark.getSparkSession.emptyDataFrame)
+  private val DEFAULT_KEY = "DEF"
+  private var tablePaths: Map[String, String] = Map(DEFAULT_KEY -> "no_table_path")
+  private var schemaPaths: Map[String, String] = Map(DEFAULT_KEY -> "no_schema_path")
+  private var testData: Map[String, DataFrame] = Map(DEFAULT_KEY -> datioSpark.getSparkSession.emptyDataFrame)
 
   Given("""The id of the process as {string}""") {
     processId: String => {
@@ -86,27 +86,27 @@ class CrashCourseSteps extends ScalaDsl with EN with Matchers {
 
   Given("""^a dataframe located at path (.*) with alias (\S+)$""") {
     (path: String, alias: String) => {
-      tables += (alias -> path)
+      tablePaths += (alias -> path)
     }
   }
 
   Given("""^a Datio schema located at path (.*) with alias (\S+)$""") {
     (path: String, alias: String) => {
-      schemas += (alias -> path)
+      schemaPaths += (alias -> path)
     }
   }
 
   When("""^I read (\S+) as dataframe with Datio schema (\S+)$""") {
     (dfName: String, schemaName: String) => {
-      val testSchema = DatioSchema.getBuilder.fromURI(URI.create(schemas(schemaName))).build()
-      testData += (dfName -> datioSpark.read.datioSchema(testSchema).parquet(tables(dfName)))
+      val schema = DatioSchema.getBuilder.fromURI(URI.create(schemaPaths(schemaName))).build()
+      testData += (dfName -> datioSpark.read.datioSchema(schema).parquet(tablePaths(dfName)))
     }
   }
 
   When("""^I filter (\S+) dataframe with filter (.*) and save it as (\S+)$""") {
     (dfName: String, filterCondition: String, alias: String) =>
-      val tempData = testData(dfName).filter(filterCondition)
-      testData += (alias -> tempData)
+      val data = testData(dfName).filter(filterCondition)
+      testData += (alias -> data)
   }
 
   Then("""^records for (.*) dataframe are equal to (\d+)+$""") {
@@ -128,10 +128,10 @@ class CrashCourseSteps extends ScalaDsl with EN with Matchers {
 
   Then("""^the number of columns for (\S+) dataframe is (equal to|more than|less than) the number of columns for (\S+) dataframe$""") {
     (dfName1: String, comparison: String, dfName2: String) =>
-      val data = testData(dfName1)
+      val data1 = testData(dfName1)
       val data2 = testData(dfName2)
 
-      val df1Columns = data.columns.length
+      val df1Columns = data1.columns.length
       val df2Columns = data2.columns.length
 
       withClue(s"Number of columns for $dfName1 dataframe is not $comparison than number of columns for $dfName2 dataframe: ") {
