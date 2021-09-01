@@ -31,7 +31,8 @@ Feature: Validate the trending top output when parameters top, country and year 
 
   Scenario Outline: Validate the output has the top 10 for each category
     Given a dataframe located at path src/test/resources/output/t_fdev_trending with alias trendingDf
-    When I read trendingDf as dataframe
+    And a Datio schema located at path src/test/resources/schemas/t_fdev_trending.output.schema with alias outputSchema
+    When I read trendingDf as dataframe with Datio schema outputSchema
     And I filter trendingDf dataframe with filter <filter> and save it as <alias>
     Then records for <alias> dataframe are equal to 5
 
@@ -43,13 +44,15 @@ Feature: Validate the trending top output when parameters top, country and year 
 
   Scenario: The output has the correct structure and it is not empty for the filters
     Given a dataframe located at path src/test/resources/output/t_fdev_trending with alias trendingDf
-    When I read trendingDf as dataframe
+    And a Datio schema located at path src/test/resources/schemas/t_fdev_trending.output.schema with alias outputSchema
+    When I read trendingDf as dataframe with Datio schema outputSchema
     Then trendingDf dataframe is not empty
     And the number of columns for trendingDf dataframe is equal to 13
 
   Scenario: The output has the correct records for the filters
     Given a dataframe located at path src/test/resources/output/t_fdev_trending with alias trendingDf
-    When I read trendingDf as dataframe
+    And a Datio schema located at path src/test/resources/schemas/t_fdev_trending.output.schema with alias outputSchema
+    When I read trendingDf as dataframe with Datio schema outputSchema
     Then records for trendingDf dataframe in column video_id have the following values:
       | values      |
       | _I_D_8Z4sJE |

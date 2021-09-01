@@ -6,8 +6,12 @@ import com.datio.dataproc.sdk.launcher.SparkLauncher
 import io.cucumber.datatable.DataTable
 import io.cucumber.scala.{EN, ScalaDsl}
 import org.apache.spark.sql.functions.col
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import com.datio.dataproc.sdk.datiosparksession.DatioSparkSession
+import com.datio.dataproc.sdk.schema.DatioSchema
+import org.apache.spark.sql.DataFrame
 import org.scalatest.Matchers
+
+import java.net.URI
 import scala.collection.JavaConversions.asScalaBuffer
 import scala.util.Try
 
@@ -16,10 +20,11 @@ class CrashCourseSteps extends ScalaDsl with EN with Matchers {
   private var givenProcessId = ""
   private var givenConfigPath = ""
   private var executionExitCode = -1
-  private val name = "unittest"
-  private val spark: SparkSession = SparkSession.builder().master("local").appName(name).getOrCreate()
-  private var tables: Map[String, String] = Map("DEF" -> "no_data")
-  private var testData: Map[String, DataFrame] = Map("DEF" -> spark.emptyDataFrame)
+  private val datioSpark: DatioSparkSession = DatioSparkSession.getOrCreate()
+  private val DEF = "DEF"
+  private var tables: Map[String, String] = Map(DEF -> "no_path")
+  private var schemas: Map[String, String] = Map(DEF -> "no_schema")
+  private var testData: Map[String, DataFrame] = Map(DEF -> datioSpark.getSparkSession.emptyDataFrame)
 
   Given("""The id of the process as {string}""") {
     processId: String => {
@@ -85,9 +90,16 @@ class CrashCourseSteps extends ScalaDsl with EN with Matchers {
     }
   }
 
-  When("""^I read (\S+) as dataframe$""") {
-    (dfName: String) => {
-      testData += (dfName -> spark.read.parquet(tables(dfName)))
+  Given("""^a Datio schema located at path (.*) with alias (\S+)$""") {
+    (path: String, alias: String) => {
+      schemas += (alias -> path)
+    }
+  }
+
+  When("""^I read (\S+) as dataframe with Datio schema (\S+)$""") {
+    (dfName: String, schemaName: String) => {
+      val testSchema = DatioSchema.getBuilder.fromURI(URI.create(schemas(schemaName))).build()
+      testData += (dfName -> datioSpark.read.datioSchema(testSchema).parquet(tables(dfName)))
     }
   }
 
