@@ -3,10 +3,11 @@ package com.bbva.datioamproduct.fdevdatio.common.namings.output
 import com.bbva.datioamproduct.fdevdatio.common.namings.Field
 import com.bbva.datioamproduct.fdevdatio.common.namings.input.Phones.{Brand, DiscountAmount, PriceProduct, Prime, StockNumber, Taxes}
 import org.apache.spark.sql.Column
-import org.apache.spark.sql.functions.{current_date, months_between, when, dense_rank, lit, floor}
+import org.apache.spark.sql.functions.{current_date, dense_rank, floor, lit, months_between, when}
 import com.bbva.datioamproduct.fdevdatio.common.StaticVals._
 import com.bbva.datioamproduct.fdevdatio.common.namings.input.Customers.BirthDate
 import org.apache.spark.sql.expressions.{Window, WindowSpec}
+import org.apache.spark.sql.types.{DateType, DecimalType, IntegerType}
 
 object CustomersPhones {
 
@@ -20,8 +21,8 @@ object CustomersPhones {
     }
   }
 
-  case object DiscountExtra extends Field {
-    override val name = "discount_extra"
+  case object ExtraDiscount extends Field {
+    override val name = "extra_discount"
 
     def apply(): Column = {
       when(
@@ -29,7 +30,7 @@ object CustomersPhones {
           StockNumber.column < THIRTY_FIVE &&
           !Brand.column.isin("XOLO", "Siemens", "Panasonic", "BlackBerry"),
         PriceProduct.column * TEN_PERCENT
-      ).otherwise(ZERO_DOUBLE).alias(name)
+      ).otherwise(ZERO_DOUBLE).cast(DecimalType(9, 2)).alias(name)
     }
   }
 
@@ -37,7 +38,8 @@ object CustomersPhones {
     override val name = "final_price"
 
     def apply(): Column = {
-      (PriceProduct.column + Taxes.column - DiscountAmount.column - DiscountExtra.column).alias(name)
+      (PriceProduct.column + Taxes.column - DiscountAmount.column - ExtraDiscount.column)
+        .cast(DecimalType(9, 2)).alias(name)
     }
   }
 
@@ -45,7 +47,7 @@ object CustomersPhones {
     override val name = "age"
 
     def apply(): Column = {
-      floor((months_between(current_date(), BirthDate.column) / TWELVE)).alias(name)
+      floor((months_between(current_date(), BirthDate.column) / TWELVE)).cast(IntegerType).alias(name)
     }
   }
 
@@ -62,7 +64,7 @@ object CustomersPhones {
     override val name: String = "jwk_date"
 
     def apply(jwkDate: String): Column = {
-      lit(jwkDate).alias(name)
+      lit(jwkDate).cast(DateType).alias(name)
     }
   }
 

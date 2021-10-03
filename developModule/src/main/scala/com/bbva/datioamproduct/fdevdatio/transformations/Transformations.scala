@@ -1,8 +1,8 @@
 package com.bbva.datioamproduct.fdevdatio.transformations
 
-import com.bbva.datioamproduct.fdevdatio.common.namings.input.Customers.{CreditCardNumber, GlDate}
-import com.bbva.datioamproduct.fdevdatio.common.namings.input.Phones.{Brand, CountryCode, CutoffDate, Nfc}
-import com.bbva.datioamproduct.fdevdatio.common.namings.output.CustomersPhones.BrandsTop
+import com.bbva.datioamproduct.fdevdatio.common.namings.input.Customers.{CityName, CreditCardNumber, FirstName, GlDate, LastName, StreetName}
+import com.bbva.datioamproduct.fdevdatio.common.namings.input.Phones.{Brand, CountryCode, CutoffDate, DiscountAmount, Model, Nfc, PriceProduct, Prime, Taxes}
+import com.bbva.datioamproduct.fdevdatio.common.namings.output.CustomersPhones.{Age, BrandsTop, CustomerVip, ExtraDiscount, FinalPrice, JwkDate}
 import com.bbva.datioamproduct.fdevdatio.common.StaticVals._
 import org.apache.spark.sql.{Column, DataFrame}
 import org.apache.spark.sql.functions.col
@@ -31,7 +31,9 @@ object Transformations {
      * a los clientes cuya tarjeta de crédito (credit_card_number) sea menor a 17
      * dígitos.
      */
-    def filterCustomer(): DataFrame = df filter GlDate.filter && CreditCardNumber.filter
+    def filterCustomer(): DataFrame = {
+      df filter GlDate.filter && CreditCardNumber.filter
+    }
 
   }
 
@@ -96,6 +98,34 @@ object Transformations {
      */
     def cleanNfcColumn(): DataFrame = {
       df.na.fill(NO, Seq(Nfc.name))
+    }
+
+    /**
+     *
+     * @return a DataFrame with all columns in the Schema
+     */
+    def fitToSchema(): DataFrame = {
+      df.select(
+        CityName.column,
+        StreetName.column,
+        CreditCardNumber.column,
+        LastName.column,
+        FirstName.column,
+        Age.column,
+        Brand.column,
+        Model.column,
+        Nfc.column,
+        CountryCode.column,
+        Prime.column,
+        CustomerVip.column,
+        Taxes(),
+        PriceProduct.column,
+        DiscountAmount(),
+        ExtraDiscount.column,
+        FinalPrice.column,
+        BrandsTop.column,
+        JwkDate.column
+      )
     }
 
   }
