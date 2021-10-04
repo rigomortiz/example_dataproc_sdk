@@ -37,7 +37,7 @@ object Transformations {
 
   }
 
-  implicit class CustomerPhonesTransformer(df: DataFrame) {
+  implicit class CustomersPhonesTransformer(df: DataFrame) {
     /**
      * Regla 4
      * John Wick quiere identificar los clientes vip mediante un nuevo campo (customer_vip),

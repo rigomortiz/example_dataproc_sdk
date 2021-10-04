@@ -1,11 +1,15 @@
 package com.bbva.datioamproduct.fdevdatio.transformations
 
 import com.bbva.datioamproduct.fdevdatio.common.ConfigConstants._
-import com.bbva.datioamproduct.fdevdatio.common.namings.input.Customers.CreditCardNumber
+import com.bbva.datioamproduct.fdevdatio.common.StaticVals.JoinTypes
+import com.bbva.datioamproduct.fdevdatio.common.namings.input.Customers.{CreditCardNumber, CustomerId, DeliveryId}
 import com.bbva.datioamproduct.fdevdatio.common.namings.input.Phones.CountryCode
+import com.bbva.datioamproduct.fdevdatio.common.namings.output.CustomersPhones.{BrandsTop, CustomerVip, ExtraDiscount, FinalPrice}
 import com.bbva.datioamproduct.fdevdatio.testUtils.ContextProvider
-import com.bbva.datioamproduct.fdevdatio.transformations.Transformations.{CustomersTransformer, PhonesTransformer}
+import com.bbva.datioamproduct.fdevdatio.transformations.Transformations.{CustomersPhonesTransformer, CustomersTransformer, PhonesTransformer}
 import com.bbva.datioamproduct.fdevdatio.utils.IOUtils
+import org.apache.spark.sql.Column
+import org.apache.spark.sql.functions.lit
 
 class TransformationsTest extends ContextProvider with IOUtils {
   "filterPhones method" should
@@ -13,9 +17,9 @@ class TransformationsTest extends ContextProvider with IOUtils {
 
 
     val inputDF: PhonesTransformer = read(config.getConfig(PHONES_CONFIG))
-    val ouptutDF = inputDF.filterPhones()
+    val outputDF = inputDF.filterPhones()
 
-    ouptutDF
+    outputDF
       .filter(CountryCode.column.isin("CH", "IT", "CZ", "DK")).count() shouldBe 0
   }
 
@@ -23,9 +27,49 @@ class TransformationsTest extends ContextProvider with IOUtils {
     "return a DF with shortest lengths than 17 in column credit_card_number" in {
 
     val inputDF: CustomersTransformer = read(config.getConfig(CUSTOMERS_CONFIG))
-    val ouptutDF = inputDF.filterCustomers()
+    val outputDF = inputDF.filterCustomers()
 
-    ouptutDF
+    outputDF
       .filter(!CreditCardNumber.filter).count() shouldBe 0
+  }
+
+  "addColumn method" should
+    "add a Column to the DataFrame" in {
+
+    val phonesDF: PhonesTransformer = read(config.getConfig(PHONES_CONFIG))
+    val customersDF: CustomersTransformer = read(config.getConfig(CUSTOMERS_CONFIG))
+
+    val inputDF = phonesDF.filterPhones().join(
+      customersDF.filterCustomers(),
+      Seq(CustomerId.name, DeliveryId.name),
+      JoinTypes.INNER
+    )
+
+    val testColumn: Column = lit("example_value").alias("test_column")
+    val outputDF = inputDF.addColumn(testColumn)
+
+    outputDF.columns should contain("test_column")
+  }
+
+  "filterBrandsTop method" should
+    "add one Column brands_top and return a DF with values less than 51" in {
+
+    val phonesDF: PhonesTransformer = read(config.getConfig(PHONES_CONFIG))
+    val customersDF: CustomersTransformer = read(config.getConfig(CUSTOMERS_CONFIG))
+
+    val inputDF = phonesDF.filterPhones().join(
+      customersDF.filterCustomers(),
+      Seq(CustomerId.name, DeliveryId.name),
+      JoinTypes.INNER
+    ).addColumn(CustomerVip())
+      .addColumn(ExtraDiscount())
+      .addColumn(FinalPrice()) // Necesitamos final_price para probar la regla que genera brands_top
+
+    val outputDF = inputDF.filterBrandsTop()
+
+    inputDF.columns should not contain ("brands_top")
+    outputDF.columns should contain("brands_top")
+    outputDF.filter(BrandsTop.column > 50).count() should be(0)
+
   }
 }

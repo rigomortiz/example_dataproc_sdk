@@ -34,7 +34,7 @@ class Engine extends SparkProcess with LazyLogging with IOUtils {
       val customersDF: CustomersTransformer = read(customersConfig)
 
       // Regla 1, 2, 3
-      val customerPhonesDF: CustomerPhonesTransformer = phonesDF.filterPhones().join(
+      val customerPhonesDF: CustomersPhonesTransformer = phonesDF.filterPhones().join(
         customersDF.filterCustomers(),
         Seq(CustomerId.name, DeliveryId.name),
         JoinTypes.INNER
