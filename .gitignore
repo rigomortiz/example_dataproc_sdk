@@ -145,3 +145,4 @@ buildNumber.properties
 !/.mvn/wrapper/maven-wrapper.jar
 
 testAT/src/test/resources/docker/datio/spark/lib
+developModule/src/test/resources/data/output/*

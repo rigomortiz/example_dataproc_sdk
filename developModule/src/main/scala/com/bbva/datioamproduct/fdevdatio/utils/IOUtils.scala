@@ -10,7 +10,7 @@ import com.typesafe.config.Config
 import org.apache.spark.sql.{DataFrame, SaveMode}
 
 trait IOUtils {
-  val datioSparkSession: DatioSparkSession = DatioSparkSession.getOrCreate()
+  lazy val datioSparkSession: DatioSparkSession = DatioSparkSession.getOrCreate()
 
   def read(inputConfig: Config): DataFrame = {
     val path: String = inputConfig.getString(PATH)

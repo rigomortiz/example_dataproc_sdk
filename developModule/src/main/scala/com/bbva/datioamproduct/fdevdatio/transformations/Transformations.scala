@@ -23,7 +23,7 @@ object Transformations {
 
   }
 
-  implicit class CustomerTransformer(df: DataFrame) {
+  implicit class CustomersTransformer(df: DataFrame) {
 
     /**
      * Por fecha diaria, tomando únicamente las fechas que comprenden del
@@ -31,7 +31,7 @@ object Transformations {
      * a los clientes cuya tarjeta de crédito (credit_card_number) sea menor a 17
      * dígitos.
      */
-    def filterCustomer(): DataFrame = {
+    def filterCustomers(): DataFrame = {
       df filter GlDate.filter && CreditCardNumber.filter
     }
 
