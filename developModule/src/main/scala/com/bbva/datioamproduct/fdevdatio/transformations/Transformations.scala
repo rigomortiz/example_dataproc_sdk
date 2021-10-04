@@ -118,9 +118,9 @@ object Transformations {
         CountryCode.column,
         Prime.column,
         CustomerVip.column,
-        Taxes(),
+        Taxes(), //Llamamos al apply porque lleva un cast para hacer match con el schema de salida
         PriceProduct.column,
-        DiscountAmount(),
+        DiscountAmount(), //Llamamos al apply porque lleva un cast para hacer match con el schema de salida
         ExtraDiscount.column,
         FinalPrice.column,
         BrandsTop.column,
