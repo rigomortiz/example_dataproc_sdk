@@ -9,11 +9,10 @@ import com.datio.dataproc.sdk.launcher.process.config.ProcessConfigLoader
 
 class EngineTest extends FunSuite with Matchers with ContextProvider with BeforeAndAfterEach {
 
-  test("should test CrashCourse") {
+  test("should test Engine") {
     // Given
     val config = new ProcessConfigLoader().fromPath("src/test/resources/config/application-test.conf")
     val runtimeContext = new FakeRuntimeContext(config)
-    val jobConfig = config.getConfig("CrashCourse")
 
     // When
     val exitCode = new Engine().runProcess(runtimeContext)
