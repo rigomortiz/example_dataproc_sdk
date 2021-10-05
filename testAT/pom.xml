@@ -23,7 +23,7 @@
         <!-- Test -->
         <dependency>
             <groupId>com.bbva.datioamproduct</groupId>
-            <artifactId>scalacrashcourse</artifactId>
+            <artifactId>example</artifactId>
             <version>0.1.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>

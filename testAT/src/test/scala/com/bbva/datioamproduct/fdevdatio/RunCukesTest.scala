@@ -5,8 +5,8 @@ import org.junit.runner.RunWith
 
 @RunWith(classOf[Cucumber])
 @CucumberOptions(
-    features = Array("classpath:features"),
-    glue = Array("com.bbva.datioamproduct.fdevdatio.steps"),
-    strict = true,
-    plugin = Array("pretty"))
+  features = Array("src/test/resources/features/Example.feature"),
+  glue = Array("com.bbva.datioamproduct.fdevdatio.steps"),
+  strict = true,
+  plugin = Array("pretty"))
 class RunCukesTest
