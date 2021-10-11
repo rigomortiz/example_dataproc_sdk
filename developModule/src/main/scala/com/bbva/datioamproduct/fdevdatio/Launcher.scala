@@ -1,13 +1,11 @@
 package com.bbva.datioamproduct.fdevdatio
 
 import com.datio.dataproc.sdk.launcher.SparkLauncher
-import com.typesafe.scalalogging.LazyLogging
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import org.slf4j.{Logger, LoggerFactory}
 
 
-object Launcher extends LazyLogging {
-
+object Launcher {
+  val logger: Logger = LoggerFactory.getLogger(this.getClass)
   /**
    * Launch your implementation of SparkProcess
    *

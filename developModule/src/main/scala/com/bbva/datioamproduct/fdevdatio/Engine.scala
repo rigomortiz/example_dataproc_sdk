@@ -10,12 +10,14 @@ import com.datio.dataproc.sdk.api.SparkProcess
 import com.datio.dataproc.sdk.api.context.RuntimeContext
 import com.datio.dataproc.sdk.schema.exception.DataprocSchemaException.InvalidDatasetException
 import com.typesafe.config.Config
-import com.typesafe.scalalogging.LazyLogging
 import org.apache.spark.sql.DataFrame
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.util.{Failure, Success, Try}
 
-class Engine extends SparkProcess with LazyLogging with IOUtils {
+class Engine extends SparkProcess with IOUtils {
+  val logger: Logger = LoggerFactory.getLogger(this.getClass)
+
 
   val OK: Int = 0
   val ERR: Int = -1
