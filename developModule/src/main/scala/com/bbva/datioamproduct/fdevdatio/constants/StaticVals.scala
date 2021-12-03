@@ -1,4 +1,4 @@
-package com.bbva.datioamproduct.fdevdatio.common
+package com.bbva.datioamproduct.fdevdatio.constants
 
 object StaticVals {
   val YES: String = "Yes"

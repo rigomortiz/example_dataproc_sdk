@@ -1,11 +1,11 @@
-package com.bbva.datioamproduct.fdevdatio.common.namings.output
+package com.bbva.datioamproduct.fdevdatio.constants.namings.output
 
-import com.bbva.datioamproduct.fdevdatio.common.namings.Field
-import com.bbva.datioamproduct.fdevdatio.common.namings.input.Phones.{Brand, DiscountAmount, PriceProduct, Prime, StockNumber, Taxes}
+import com.bbva.datioamproduct.fdevdatio.constants.namings.Field
+import com.bbva.datioamproduct.fdevdatio.constants.namings.input.Phones.{Brand, DiscountAmount, PriceProduct, Prime, StockNumber, Taxes}
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.functions.{current_date, dense_rank, floor, lit, months_between, when}
-import com.bbva.datioamproduct.fdevdatio.common.StaticVals._
-import com.bbva.datioamproduct.fdevdatio.common.namings.input.Customers.BirthDate
+import com.bbva.datioamproduct.fdevdatio.constants.StaticVals._
+import com.bbva.datioamproduct.fdevdatio.constants.namings.input.Customers.BirthDate
 import org.apache.spark.sql.expressions.{Window, WindowSpec}
 import org.apache.spark.sql.types.{DateType, DecimalType, IntegerType}
 

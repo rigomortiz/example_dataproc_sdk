@@ -1,22 +1,20 @@
 package com.bbva.datioamproduct.fdevdatio.transformations
 
-import com.bbva.datioamproduct.fdevdatio.common.ConfigConstants._
-import com.bbva.datioamproduct.fdevdatio.common.StaticVals.JoinTypes
-import com.bbva.datioamproduct.fdevdatio.common.namings.input.Customers.{CreditCardNumber, CustomerId, DeliveryId}
-import com.bbva.datioamproduct.fdevdatio.common.namings.input.Phones.CountryCode
-import com.bbva.datioamproduct.fdevdatio.common.namings.output.CustomersPhones.{BrandsTop, CustomerVip, ExtraDiscount, FinalPrice}
+import com.bbva.datioamproduct.fdevdatio.constants.StaticVals.JoinTypes
+import com.bbva.datioamproduct.fdevdatio.constants.namings.input.Customers.{CreditCardNumber, CustomerId, DeliveryId}
+import com.bbva.datioamproduct.fdevdatio.constants.namings.input.Phones.CountryCode
+import com.bbva.datioamproduct.fdevdatio.constants.namings.output.CustomersPhones.{BrandsTop, CustomerVip, ExtraDiscount, FinalPrice}
 import com.bbva.datioamproduct.fdevdatio.testUtils.ContextProvider
 import com.bbva.datioamproduct.fdevdatio.transformations.Transformations.{CustomersPhonesTransformer, CustomersTransformer, PhonesTransformer}
-import com.bbva.datioamproduct.fdevdatio.utils.IOUtils
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.functions.lit
 
-class TransformationsTest extends ContextProvider with IOUtils {
+class TransformationsTest extends ContextProvider {
   "filterPhones method" should
     "return a DF without values CH, IT, CZ y DK in column country_code" in {
 
 
-    val inputDF: PhonesTransformer = read(config.getConfig(PHONES_CONFIG))
+    val inputDF: PhonesTransformer = jobConfig.fDevPhones.read()
     val outputDF = inputDF.filterPhones()
 
     outputDF
@@ -26,7 +24,7 @@ class TransformationsTest extends ContextProvider with IOUtils {
   "filterCustomers method" should
     "return a DF with shortest lengths than 17 in column credit_card_number" in {
 
-    val inputDF: CustomersTransformer = read(config.getConfig(CUSTOMERS_CONFIG))
+    val inputDF: CustomersTransformer = jobConfig.fDevCustomers.read()
     val outputDF = inputDF.filterCustomers()
 
     outputDF
@@ -36,8 +34,8 @@ class TransformationsTest extends ContextProvider with IOUtils {
   "addColumn method" should
     "add a Column to the DataFrame" in {
 
-    val phonesDF: PhonesTransformer = read(config.getConfig(PHONES_CONFIG))
-    val customersDF: CustomersTransformer = read(config.getConfig(CUSTOMERS_CONFIG))
+    val phonesDF: PhonesTransformer = jobConfig.fDevPhones.read()
+    val customersDF: CustomersTransformer = jobConfig.fDevCustomers.read()
 
     val inputDF = phonesDF.filterPhones().join(
       customersDF.filterCustomers(),
@@ -54,8 +52,8 @@ class TransformationsTest extends ContextProvider with IOUtils {
   "filterBrandsTop method" should
     "add one Column brands_top and return a DF with values less than 51" in {
 
-    val phonesDF: PhonesTransformer = read(config.getConfig(PHONES_CONFIG))
-    val customersDF: CustomersTransformer = read(config.getConfig(CUSTOMERS_CONFIG))
+    val phonesDF: PhonesTransformer = jobConfig.fDevPhones.read()
+    val customersDF: CustomersTransformer = jobConfig.fDevCustomers.read()
 
     val inputDF = phonesDF.filterPhones().join(
       customersDF.filterCustomers(),

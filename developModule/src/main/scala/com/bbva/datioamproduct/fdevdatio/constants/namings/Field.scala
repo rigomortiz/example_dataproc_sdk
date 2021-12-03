@@ -1,4 +1,4 @@
-package com.bbva.datioamproduct.fdevdatio.common.namings
+package com.bbva.datioamproduct.fdevdatio.constants.namings
 
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.functions.col

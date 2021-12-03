@@ -1,4 +1,4 @@
-package com.bbva.datioamproduct.fdevdatio.common
+package com.bbva.datioamproduct.fdevdatio.constants
 
 object ConfigConstants {
 
@@ -12,12 +12,5 @@ object ConfigConstants {
   val CUSTOMERS_PHONES_CONFIG: String = s"$OUTPUT_CONFIG.t_fdev_customersphones"
 
   val JWK_DATE: String = s"$PARAMS_CONFIG.jwk_date"
-
-
-  val PATH: String = "path"
-  val TYPE: String = "type"
-  val SCHEMA: String = "schema"
-  val PARTITIONS: String = "partitions"
-  val MODE: String = "mode"
 
 }

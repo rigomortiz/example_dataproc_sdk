@@ -6,11 +6,11 @@
 
     <parent>
         <groupId>com.bbva.datioamproduct</groupId>
-        <artifactId>fdevdatio-scalacrashcourse</artifactId>
+        <artifactId>example_dataproc_sdk</artifactId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>example</artifactId>
+    <artifactId>developModule</artifactId>
     <packaging>jar</packaging>
     <version>0.1.0-SNAPSHOT</version>
 
@@ -21,6 +21,16 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.datio.dataproc.kirby</groupId>
+            <artifactId>kirby-io</artifactId>
+            <version>${kirby.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.datio.dataproc.kirby</groupId>
+            <artifactId>kirby-core</artifactId>
+            <version>${kirby.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.datio.dataproc.sdk</groupId>
             <artifactId>dataproc-sdk-api</artifactId>
