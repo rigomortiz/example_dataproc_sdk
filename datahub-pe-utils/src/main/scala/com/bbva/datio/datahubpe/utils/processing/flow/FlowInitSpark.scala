@@ -1,58 +1,51 @@
 package com.bbva.datio.datahubpe.utils.processing.flow
 
 import com.bbva.datio.datahubpe.utils.processing.data.{DataReader, DataWriter}
-import com.bbva.datio.datahubpe.utils.processing.flow.impl.{ConcreteReader, ConcreteSchemaValidator, ConcreteWriter}
-import com.datio.spark.metric.model.BusinessInformation
+import com.bbva.datio.datahubpe.utils.processing.flow.impl.{ConcreteReader, ConcreteWriter}
+import com.datio.dataproc.sdk.api.SparkProcess
+import com.datio.dataproc.sdk.api.context.RuntimeContext
+import com.datio.dataproc.sdk.schema.exception.DataprocSchemaException.InvalidDatasetException
 import com.typesafe.config.Config
-import org.apache.spark.sql.SparkSession
+import org.slf4j.{Logger, LoggerFactory}
 
-trait FlowInitSpark extends scala.AnyRef with com.datio.spark.SparkLauncher {
-  override final def runProcess(sparkT: SparkSession, config: Config): Int = {
-    implicit val spark: SparkSession = sparkT
+import scala.util.{Failure, Success, Try}
 
-    logger.info("Reading input")
-    val concreteReader = getReader(spark, config)
-    val dataReader = concreteReader.read()
+abstract class FlowInitSpark extends SparkProcess {
+  private val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
-    logger.info("Apply transformations")
-    val dataWriter = getTransformer(config).transform(dataReader)
+  final override def runProcess(runtimeContext: RuntimeContext): Int = {
+    Try {
+      val config: Config = runtimeContext.getConfig
 
-    logger.info("Apply Validation")
-    val concreteSchemaValidator = new ConcreteSchemaValidator(spark, config)
-    val dataWriterValidate = concreteSchemaValidator.validate(dataWriter)
+      logger.info("Reading input")
+      val concreteReader = getReader(config)
+      val dataReader = concreteReader.read()
 
-    logger.info("Apply writter")
-    val concreteWriter = new ConcreteWriter(spark, config)
-    concreteWriter.write(dataWriterValidate)
+      logger.info("Apply transformations")
+      val dataWriter = getTransformer(config).transform(dataReader)
 
-    var exitCode = 0
-    exitCode
-  }
+      logger.info("Apply writter")
+      val concreteWriter = new ConcreteWriter(config)
+      concreteWriter.write(dataWriter)
 
-  override final def defineBusinessInfo(config: Config): BusinessInformation =
-    BusinessInformation(
-      exitCode = 0,
-      entity = "",
-      path = "",
-      mode = "",
-      schema = "",
-      schemaVersion = "",
-      reprocessing = ""
-    )
-
-  final def main(args: Array[String]): Unit = {
-    var exitCode = 0
-
-    try {
-      exitCode = runTask(args)
-    } finally {
-      logger.info(s"System Exit Code: $exitCode")
-      System.exit(exitCode)
+    } match {
+      case Success(_) => 0
+      case Failure(exception: InvalidDatasetException) => {
+        for (err <- exception.getErrors.toArray) {
+          logger.error(err.toString)
+        }
+        -1
+      }
+      case Failure(exception: Exception) => {
+        exception.printStackTrace()
+        -1
+      }
     }
   }
 
   def getTransformer(config: Config): Transformer[DataReader, DataWriter]
 
-  protected def getReader(spark: SparkSession, config: Config): Reader[DataReader] =
-    new ConcreteReader(spark, config)
+  protected def getReader(config: Config): Reader[DataReader] = new ConcreteReader(config)
+
+  override def getProcessId: String = "FlowInitSpark"
 }

@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.bbva.datio.datahub-pe</groupId>
         <artifactId>datahub-parent</artifactId>
-        <version>0.3.8-SNAPSHOT</version>
+        <version>0.4.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>exampleTemplate</artifactId>
@@ -16,97 +16,99 @@
     <name>exampleTemplate module</name>
 
     <dependencies>
-
         <dependency>
             <groupId>com.bbva.datio.datahub-pe</groupId>
             <artifactId>datahub-pe-utils</artifactId>
-            <version>${parent.version}</version>
+            <version>0.4.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
+            <groupId>com.datio.dataproc.kirby</groupId>
+            <artifactId>kirby-io</artifactId>
+            <version>${kirby.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.datio.dataproc.kirby</groupId>
+            <artifactId>kirby-core</artifactId>
+            <version>${kirby.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.datio.dataproc.sdk</groupId>
+            <artifactId>dataproc-sdk-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.datio.dataproc.sdk</groupId>
+            <artifactId>dataproc-sdk-functions</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.datio.dataproc.sdk</groupId>
+            <artifactId>dataproc-sdk-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.datio.dataproc.sdk</groupId>
+            <artifactId>dataproc-sdk-schema</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.datio.dataproc.sdk</groupId>
+            <artifactId>dataproc-sdk-datiosparksession</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.datio.dataproc.sdk</groupId>
+            <artifactId>dataproc-sdk-launcher</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.binary.version}</artifactId>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava-jdk5</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-            </exclusions>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_${scala.binary.version}</artifactId>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-mllib_${scala.binary.version}</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-catalyst_${scala.binary.version}</artifactId>
-            <version>${spark.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.datio.kirby</groupId>
-            <artifactId>kirby-ingestion</artifactId>
-            <version>${kirby.version}</version>
+            <groupId>com.datio.dataproc.runtime.epsilonhdfs</groupId>
+            <artifactId>epsilon-hdfs</artifactId>
+            <version>${epsilon-hadoop.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava-jdk5</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-all</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.typelevel</groupId>
-            <artifactId>cats-core_2.11</artifactId>
-            <version>1.6.0</version>
-        </dependency>
-
 
         <!-- Test -->
         <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_${scala.binary.version}</artifactId>
-            <version>${scalatest.version}</version>
-            <scope>compile</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.typesafe.scala-logging</groupId>
-            <artifactId>scala-logging_${scala.binary.version}</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.datio.spark</groupId>
-            <artifactId>utils</artifactId>
-            <version>${datio-spark-utils.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.datio.spark</groupId>
-            <artifactId>tests</artifactId>
-            <version>${datio-spark-tests.version}</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.scoverage</groupId>
+                <artifactId>scoverage-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -133,43 +135,28 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.scalastyle</groupId>
-                <artifactId>scalastyle-maven-plugin</artifactId>
-                <configuration>
-                    <configLocation>${project.parent.basedir}</configLocation>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.scoverage</groupId>
-                <artifactId>scoverage-maven-plugin</artifactId>
-                <version>${scoverage.plugin.version}</version>
-                <configuration>
-                    <aggregate>true</aggregate>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>report</goal> <!-- or integration-check -->
-                        </goals>
-                        <phase>test</phase> <!-- or any other phase -->
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
     <profiles>
         <profile>
             <id>run-local</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <dependencies>
+                <dependency>
+                    <groupId>org.apache.spark</groupId>
+                    <artifactId>spark-core_${scala.binary.version}</artifactId>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.spark</groupId>
+                    <artifactId>spark-sql_${scala.binary.version}</artifactId>
+                    <scope>compile</scope>
+                </dependency>
                 <dependency>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-log4j12</artifactId>
                     <version>${slf4j.version}</version>
+                    <scope>compile</scope>
                 </dependency>
             </dependencies>
         </profile>

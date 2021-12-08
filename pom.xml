@@ -1,38 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>com.datio</groupId>
         <artifactId>spark-pom-parent</artifactId>
-        <version>0.7.1-2.2.1</version>
+        <version>1.0.1-3.1-SNAPSHOT</version>
     </parent>
-
 
     <groupId>com.bbva.datio.datahub-pe</groupId>
     <artifactId>datahub-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.3.8-SNAPSHOT</version>
+    <version>0.4.0-SNAPSHOT</version>
 
     <name>Parent datahubutils</name>
 
     <properties>
-
-        <avro.version>1.7.7</avro.version>
-        <datio-spark-utils.version>2.0.5-2.2.1</datio-spark-utils.version>
-        <datio-spark-tests.version>1.0.1-2.2.1</datio-spark-tests.version>
-        <datio-spark-bdt.version>1.0.0-2.2.1</datio-spark-bdt.version>
-        <slf4j.version>1.7.6</slf4j.version>
-        <kirby.version>2.12.6</kirby.version>
-        <databricks.version>4.0.0</databricks.version>
-
+        <kirby.version>3.3.1</kirby.version>
+        <epsilon-hadoop.version>1.2.0</epsilon-hadoop.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-
-            <!-- Add dependencies for project -->
-
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.datio.dataproc.sdk</groupId>
+                <artifactId>dataproc-sdk-bom</artifactId>
+                <version>0.3.1-3.1-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -58,10 +60,11 @@
         </plugins>
     </build>
 
-<modules>
-    <module>datahub-pe-utils</module>
-    <module>testAT</module>
-    <module>exampleTemplate</module>
 
-</modules>
+    <modules>
+        <module>datahub-pe-utils</module>
+        <module>testAT</module>
+        <module>exampleTemplate</module>
+
+    </modules>
 </project>

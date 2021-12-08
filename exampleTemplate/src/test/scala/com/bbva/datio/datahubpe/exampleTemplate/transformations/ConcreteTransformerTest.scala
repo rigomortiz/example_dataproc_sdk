@@ -9,8 +9,8 @@ import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.scalatest.{FlatSpec, Matchers}
 
 class ConcreteTransformerTest extends FlatSpec with Matchers with ContextProvider {
-  val config              = ConfigFactory.defaultApplication()
-  val dataReader          = new DataReader()
+  val config = ConfigFactory.defaultApplication()
+  val dataReader = new DataReader()
   val concreteTransformer = new ConcreteTransformer(config)
 
   it should "This succeeds if the assertion holds true for every element" in {
@@ -36,7 +36,7 @@ class ConcreteTransformerTest extends FlatSpec with Matchers with ContextProvide
           """.stripMargin
     val configFile = ConfigFactory.parseString(inputCorrect)
 
-    val dataReader = new ConcreteReader(spark, configFile).read()
+    val dataReader = new ConcreteReader(configFile).read()
 
     new ManagerFilteredTransformer(config).transform(dataReader)
     new StructureFilteredTransformer(config).transform(dataReader)
@@ -90,7 +90,7 @@ class ConcreteTransformerTest extends FlatSpec with Matchers with ContextProvide
     dataReader.add("managerUpdateBankingServiceByRank", dataManager)
 
     val schemaStructure = List(StructField("branch_id", StringType, true))
-    val Structure       = Seq(Row("0001"))
+    val Structure = Seq(Row("0001"))
 
     val dataStructure = spark.createDataFrame(spark.sparkContext.parallelize(Structure), StructType(schemaStructure))
     dataReader.add("structureFiltered", dataStructure)
