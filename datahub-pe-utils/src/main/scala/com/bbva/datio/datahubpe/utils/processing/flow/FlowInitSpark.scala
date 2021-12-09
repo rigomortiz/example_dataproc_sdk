@@ -47,5 +47,5 @@ abstract class FlowInitSpark extends SparkProcess {
 
   protected def getReader(config: Config): Reader[DataReader] = new ConcreteReader(config)
 
-  override def getProcessId: String = "FlowInitSpark"
+  override def getProcessId: String
 }
