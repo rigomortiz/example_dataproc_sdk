@@ -4,7 +4,7 @@ import com.bbva.datioamproduct.fdevdatio.config.{MyConfig, MyConfigHandler}
 import com.datio.dataproc.sdk.api.SparkProcess
 import com.datio.dataproc.sdk.api.context.RuntimeContext
 import com.typesafe.config.Config
-import org.apache.spark.sql.{Dataset, Row}
+import org.apache.spark.sql.{Column, DataFrame, Dataset, Row}
 import org.slf4j.LoggerFactory
 
 import scala.util.{Failure, Success, Try}
@@ -25,8 +25,11 @@ class SparkProcessCourse extends SparkProcess {
 
       logger.info(s"Developer: $devName")
 
-      val ds: Dataset[Row] = myConfig.fdevCustomers.read()
-      ds.show(20, false)
+      val customersDs: Dataset[Row] = myConfig.fdevCustomers.read()
+      val bikesDs: Dataset[Row] = myConfig.fdevBikes.read()
+
+      customersDs.show(20, false)
+      bikesDs.show(20, false)
 
     } match {
       case Success(_) => 0
@@ -38,4 +41,5 @@ class SparkProcessCourse extends SparkProcess {
   }
 
   override def getProcessId: String = "SparkProcessCourse"
+
 }

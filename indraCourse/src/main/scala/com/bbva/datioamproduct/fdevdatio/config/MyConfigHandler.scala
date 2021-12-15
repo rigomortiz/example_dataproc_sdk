@@ -16,10 +16,12 @@ class MyConfigHandler {
     logger.info("Loading Config")
 
     val customersConfig = config.getConfig(FdevCustomersConfig)
+    val bikesConfig = config.getConfig(FdevBikesConfig)
     val paramsConfig = config.getConfig(ParamsConfig)
 
     MyConfig(
       fdevCustomers = inputFactory.getImplementation(customersConfig),
+      fdevBikes = inputFactory.getImplementation(bikesConfig),
       params = paramsConfig
     )
   }

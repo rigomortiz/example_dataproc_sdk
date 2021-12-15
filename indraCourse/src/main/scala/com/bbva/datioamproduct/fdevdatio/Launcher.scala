@@ -21,3 +21,4 @@ object Launcher {
     SparkLauncher.main(Array(args(0), "SparkProcessCourse"))
   }
 }
+

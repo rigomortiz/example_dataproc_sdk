@@ -5,5 +5,6 @@ import com.typesafe.config.{Config, ConfigFactory}
 
 case class MyConfig(
                      params: Config = ConfigFactory.defaultApplication(),
-                     fdevCustomers: Input
+                     fdevCustomers: Input,
+                     fdevBikes: Input
                    )

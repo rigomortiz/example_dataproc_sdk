@@ -8,6 +8,7 @@ object ConfigConstants {
   val OutputsConfig: String = s"$RootConfig.outputs"
 
   val FdevCustomersConfig: String = s"$InputsConfig.fdevCustomers"
+  val FdevBikesConfig: String = s"$InputsConfig.fdevBikes"
 
   val DevNameConfig: String = "devName"
 }
