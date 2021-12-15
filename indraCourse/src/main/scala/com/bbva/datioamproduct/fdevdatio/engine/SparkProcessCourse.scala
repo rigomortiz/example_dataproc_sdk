@@ -1,5 +1,6 @@
-package com.bbva.datioamproduct.fdevdatio
+package com.bbva.datioamproduct.fdevdatio.engine
 
+import com.bbva.datioamproduct.fdevdatio.config.{MyConfig, MyConfigHandler}
 import com.datio.dataproc.sdk.api.SparkProcess
 import com.datio.dataproc.sdk.api.context.RuntimeContext
 import com.typesafe.config.Config
@@ -7,8 +8,9 @@ import org.apache.spark.sql.{Dataset, Row}
 import org.slf4j.LoggerFactory
 
 import scala.util.{Failure, Success, Try}
+import com.bbva.datioamproduct.fdevdatio.constants.ConfigConstants.DevNameConfig
 
-class Engine2021Q4G3 extends SparkProcess {
+class SparkProcessCourse extends SparkProcess {
   private val logger = LoggerFactory.getLogger(this.getClass)
   private val myConfigHandler = new MyConfigHandler()
 
@@ -19,9 +21,12 @@ class Engine2021Q4G3 extends SparkProcess {
       val config: Config = runtimeContext.getConfig
       val myConfig: MyConfig = myConfigHandler.load(config)
 
-      val ds: Dataset[Row] = myConfig.fdevCustomers.read()
+      val devName = myConfig.params.getString(DevNameConfig)
 
-      ds.show(20)
+      logger.info(s"Developer: $devName")
+
+      val ds: Dataset[Row] = myConfig.fdevCustomers.read()
+      ds.show(20, false)
 
     } match {
       case Success(_) => 0
@@ -32,5 +37,5 @@ class Engine2021Q4G3 extends SparkProcess {
     }
   }
 
-  override def getProcessId: String = "Engine2021Q4G3"
+  override def getProcessId: String = "SparkProcessCourse"
 }

@@ -1,0 +1,20 @@
+{
+
+  "_id": "fdev-mx-spk-ind-sparkprocesscourse-01",
+  "description": "A hello world process with Dataproc SDK and Kirby 3",
+  "kind": "processing",
+  "runtime": "spark:3.1.1",
+  "size": "S",
+  "streaming": false,
+  "params": {
+    "artifactUrl": "${repository.endpoint}/${repository.enviroment}/com/bbva/datioamproduct/indraCourse/${version}/indraCourse-${version}-jar-with-dependencies.jar",
+    "configUrl": "${repository.endpoint}/${repository.enviroment}/com/bbva/datioamproduct/indraCourse/${version}/Application.conf",
+    "mainClass": "com.bbva.datioamproduct.fdevdatio.Launcher"
+  },
+  "env": {},
+  "tags": [
+    "indra",
+    "develop",
+    "course"
+  ]
+}
