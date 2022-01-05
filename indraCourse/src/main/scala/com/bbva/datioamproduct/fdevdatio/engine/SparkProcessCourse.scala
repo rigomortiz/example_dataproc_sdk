@@ -1,14 +1,18 @@
 package com.bbva.datioamproduct.fdevdatio.engine
 
 import com.bbva.datioamproduct.fdevdatio.config.{MyConfig, MyConfigHandler}
+import com.bbva.datioamproduct.fdevdatio.constants.ConfigConstants._
+import com.bbva.datioamproduct.fdevdatio.constants.fields.input.Bikes.BikeId
+import com.bbva.datioamproduct.fdevdatio.transformations.BikesTransformations.BikesDs
+import com.bbva.datioamproduct.fdevdatio.transformations.CustomersBikesTransformations.CustomersBikesDs
+import com.bbva.datioamproduct.fdevdatio.transformations.CustomersTransformations.CustomersDs
 import com.datio.dataproc.sdk.api.SparkProcess
 import com.datio.dataproc.sdk.api.context.RuntimeContext
 import com.typesafe.config.Config
-import org.apache.spark.sql.{Column, DataFrame, Dataset, Row}
 import org.slf4j.LoggerFactory
+import com.bbva.datioamproduct.fdevdatio.constants.fields.output.CustomersBikes._
 
 import scala.util.{Failure, Success, Try}
-import com.bbva.datioamproduct.fdevdatio.constants.ConfigConstants.DevNameConfig
 
 class SparkProcessCourse extends SparkProcess {
   private val logger = LoggerFactory.getLogger(this.getClass)
@@ -22,14 +26,33 @@ class SparkProcessCourse extends SparkProcess {
       val myConfig: MyConfig = myConfigHandler.load(config)
 
       val devName = myConfig.params.getString(DevNameConfig)
+      val cutoffDate = myConfig.params.getString(CutoffDateConfig)
 
       logger.info(s"Developer: $devName")
 
-      val customersDs: Dataset[Row] = myConfig.fdevCustomers.read()
-      val bikesDs: Dataset[Row] = myConfig.fdevBikes.read()
+      val customersDs = myConfig.fdevCustomers.read()
+        .filterPurchaseYear()
 
-      customersDs.show(20, false)
-      bikesDs.show(20, false)
+      val bikesDs = myConfig.fdevBikes.read()
+        .filterSizeColumn()
+
+      /**
+       * El Sr. Wick requiere conocer la relación entre la compra de la bicicleta y los detalles
+       * técnicos de la misma, por lo que se ha decidido realizar un inner join entre ambas tablas.
+       */
+      customersDs.join(bikesDs, Seq(BikeId.name))
+        .addColumns(
+          NBikes(),
+          TotalSpent(),
+          TotalInplace(),
+          TotalOnline(),
+          IsOnlineCustomer(),
+          IsInplaceCustomer(),
+          IsHybridCustomer(),
+          TotalRefund()
+        )
+        .show()
+
 
     } match {
       case Success(_) => 0

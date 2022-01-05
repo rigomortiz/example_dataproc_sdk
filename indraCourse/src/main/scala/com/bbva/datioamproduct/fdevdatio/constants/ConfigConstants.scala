@@ -11,4 +11,5 @@ object ConfigConstants {
   val FdevBikesConfig: String = s"$InputsConfig.fdevBikes"
 
   val DevNameConfig: String = "devName"
+  val CutoffDateConfig: String = "cutoffDate"
 }
