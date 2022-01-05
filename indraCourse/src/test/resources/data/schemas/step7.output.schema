@@ -14,16 +14,6 @@
     "metadata": false,
     "default": ""
   },
-
-  {
-    "name": "name",
-    "type": "string",
-    "legacyName": "name",
-    "logicalFormat": "ALPHANUMERIC(30)",
-    "deleted": false,
-    "metadata": false,
-    "default": ""
-  },
   {
     "name": "country",
     "type": ["null", "string"],
@@ -216,7 +206,16 @@
     "deleted": false,
     "metadata": false,
     "default": ""
-  }
+  },
+    {
+      "name": "name",
+      "type": "string",
+      "legacyName": "name",
+      "logicalFormat": "ALPHANUMERIC(30)",
+      "deleted": false,
+      "metadata": false,
+      "default": ""
+    }
 
   ]
 }

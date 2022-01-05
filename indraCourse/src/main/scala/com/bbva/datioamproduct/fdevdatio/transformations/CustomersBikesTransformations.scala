@@ -13,8 +13,7 @@ object CustomersBikesTransformations {
         case h :: t => {
           ds
             .select(
-              ds.columns.map(col)
-                :+ h: _*
+              ds.columns.map(col) :+ h: _*
             )
             .addColumns(t: _*)
         }

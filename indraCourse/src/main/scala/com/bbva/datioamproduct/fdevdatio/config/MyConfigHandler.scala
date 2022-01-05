@@ -5,6 +5,8 @@ import com.datio.dataproc.kirby.core.config.configurable.KirbyConfigurableFactor
 import com.typesafe.config.Config
 import org.slf4j.LoggerFactory
 import com.bbva.datioamproduct.fdevdatio.constants.ConfigConstants._
+import com.datio.dataproc.kirby.core.actions.{DynamicDatasetSchema, Encrypt, InternalKirbyAction, Repartition, ReprocessPartitions, SafeReprocess, Validation}
+import com.datio.dataproc.kirby.core.config.exception.MissingMandatoryOutputSchemaException
 
 class MyConfigHandler {
 
@@ -19,11 +21,33 @@ class MyConfigHandler {
     val bikesConfig = config.getConfig(FdevBikesConfig)
     val paramsConfig = config.getConfig(ParamsConfig)
 
+
+    val customersBikesConfig = config.getConfig(FdevCustomersBikesConfig)
+    val fDevCustomersBikesInternalActions = getPreOutputInternalActions(customersBikesConfig)
+    val fDevCustomersPhones = outputFactory.getImplementation(fDevCustomersBikesInternalActions
+      .foldLeft(customersBikesConfig)((c, a) => a.prepareConfig(c)))
+
     MyConfig(
       fdevCustomers = inputFactory.getImplementation(customersConfig),
       fdevBikes = inputFactory.getImplementation(bikesConfig),
-      params = paramsConfig
+      params = paramsConfig,
+      fdevCustomersBikes = fDevCustomersPhones,
+      fdevCustomersBikesInternalActions = fDevCustomersBikesInternalActions
     )
+  }
+
+
+  private def getPreOutputInternalActions(config: Config): Seq[InternalKirbyAction] = {
+    val safeReprocess = SafeReprocess(config)
+    val schema = Some(Option(outputFactory.getImplementation(config).getSchema.orElse(None.orNull))
+      .getOrElse(throw MissingMandatoryOutputSchemaException()))
+
+    Seq(Encrypt(schema, safeReprocess, None.orNull),
+      safeReprocess.prepareOutputAction(),
+      Repartition(config),
+      DynamicDatasetSchema(config, schema),
+      Validation(schema),
+      ReprocessPartitions(config))
   }
 
 }

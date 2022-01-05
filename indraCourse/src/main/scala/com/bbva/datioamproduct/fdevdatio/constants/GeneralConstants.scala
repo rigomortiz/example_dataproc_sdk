@@ -1,7 +1,7 @@
 package com.bbva.datioamproduct.fdevdatio.constants
 
 object GeneralConstants {
-  val LetterS: String = "S"
+  val SizeS: String = "S"
   val TenPercent: Float = 0.1f
   val FivePercent: Float = 0.05f
   val EightPercent: Float = 0.08f

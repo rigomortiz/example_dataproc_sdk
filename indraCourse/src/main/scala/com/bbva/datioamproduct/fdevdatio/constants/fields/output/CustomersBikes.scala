@@ -8,16 +8,15 @@ import com.bbva.datioamproduct.fdevdatio.constants.fields.output.CustomersBikes.
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.expressions.{Window, WindowSpec}
 import org.apache.spark.sql.functions.{count, sum, when}
-import org.apache.spark.sql.types.{BooleanType, DataType, DecimalType, IntegerType}
+import org.apache.spark.sql.types.{BooleanType, DataType, DecimalType, DoubleType, IntegerType}
 
 object CustomersBikes {
 
   private val windowByCustomerName: WindowSpec = Window.partitionBy(Name.name)
 
   /**
-   * El Sr.Wick necesita conocer la cantidad de bicicletas (n_bikes) y el monto total de las
-   * compras (total_spent) por cada cliente (name).
-   * * NOTA: n_bikes y total_spent son campos calculados.
+   * El Sr.Wick necesita conocer la cantidad de bicicletas (n_bikes) por cada cliente (name).
+   * * NOTA: n_bikes es un campo calculado.
    */
   case object NBikes extends Field {
     override val name: String = "n_bikes"
@@ -55,7 +54,9 @@ object CustomersBikes {
     val dataType: DataType = IntegerType
 
     def apply(): Column = {
-      sum(when(PurchaseOnline.column, OneNumber).otherwise(ZeroNumber))
+      sum(
+        when(PurchaseOnline.column === true, OneNumber).otherwise(ZeroNumber)
+      )
         .over(windowByCustomerName)
         .cast(dataType)
         .alias(name)
@@ -75,7 +76,9 @@ object CustomersBikes {
     val dataType: DataType = IntegerType
 
     def apply(): Column = {
-      sum(when(PurchaseOnline.column, ZeroNumber).otherwise(OneNumber))
+      sum(
+        when(PurchaseOnline.column, ZeroNumber).otherwise(OneNumber)
+      )
         .over(windowByCustomerName)
         .cast(dataType)
         .alias(name)
@@ -133,7 +136,8 @@ object CustomersBikes {
     def apply(): Column = {
       when(IsOnlineCustomer.column, TotalSpent.column * TenPercent)
         .when(IsInplaceCustomer.column, TotalSpent.column * FivePercent)
-        .otherwise(TotalSpent.column * EightPercent)
+        .when(IsHybridCustomer.column, TotalSpent.column * EightPercent)
+        .otherwise(ZeroNumber)
         .cast(dataType)
         .alias(name)
     }

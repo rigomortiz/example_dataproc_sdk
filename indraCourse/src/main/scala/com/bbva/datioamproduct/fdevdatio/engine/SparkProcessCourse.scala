@@ -40,7 +40,7 @@ class SparkProcessCourse extends SparkProcess {
        * El Sr. Wick requiere conocer la relación entre la compra de la bicicleta y los detalles
        * técnicos de la misma, por lo que se ha decidido realizar un inner join entre ambas tablas.
        */
-      customersDs.join(bikesDs, Seq(BikeId.name))
+      val customersBikesDs = customersDs.join(bikesDs, Seq(BikeId.name))
         .addColumns(
           NBikes(),
           TotalSpent(),
@@ -51,8 +51,12 @@ class SparkProcessCourse extends SparkProcess {
           IsHybridCustomer(),
           TotalRefund()
         )
-        .show()
 
+      logger.debug("Apply pre output internal actions")
+      val outputDs = myConfig.fdevCustomersBikesInternalActions
+        .foldLeft(customersBikesDs)((ds, action) => action.doAction(ds))
+
+      myConfig.fdevCustomersBikes.write(outputDs)
 
     } match {
       case Success(_) => 0

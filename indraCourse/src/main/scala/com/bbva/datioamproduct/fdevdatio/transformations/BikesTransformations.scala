@@ -13,7 +13,7 @@ object BikesTransformations {
      * * Por talla de bicicleta (size) diferente de S.
      */
     def filterSizeColumn(): Dataset[Row] = {
-      ds.filter(Size.column =!= LetterS)
+      ds.filter(Size.column =!= SizeS)
     }
 
   }

@@ -10,6 +10,9 @@ object ConfigConstants {
   val FdevCustomersConfig: String = s"$InputsConfig.fdevCustomers"
   val FdevBikesConfig: String = s"$InputsConfig.fdevBikes"
 
+  val FdevCustomersBikesConfig: String = s"$OutputsConfig.fdevCustomersBikes"
+
+
   val DevNameConfig: String = "devName"
   val CutoffDateConfig: String = "cutoffDate"
 }
