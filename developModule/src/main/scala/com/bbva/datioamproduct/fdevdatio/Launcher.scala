@@ -1,13 +1,12 @@
 package com.bbva.datioamproduct.fdevdatio
 
 import com.datio.dataproc.sdk.launcher.SparkLauncher
-import com.typesafe.scalalogging.LazyLogging
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 
-object Launcher extends LazyLogging {
-
+object Launcher {
+  private val logger:Logger = LoggerFactory.getLogger(this.getClass)
   /**
    * Launch your implementation of SparkProcess
    *
@@ -18,6 +17,7 @@ object Launcher extends LazyLogging {
       logger.error("Parameter configuration file path is mandatory. Exiting...")
       System.exit(1000)
     }
+    // Launcher [params, Name of logic container]
     SparkLauncher.main(Array(args(0), "Engine"))
   }
 }

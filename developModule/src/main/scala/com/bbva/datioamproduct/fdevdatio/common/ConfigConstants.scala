@@ -1,7 +1,6 @@
 package com.bbva.datioamproduct.fdevdatio.common
 
 object ConfigConstants {
-
   val ROOT_CONFIG: String = "example_job"
   val INPUT_CONFIG: String = s"$ROOT_CONFIG.input"
   val OUTPUT_CONFIG: String = s"$ROOT_CONFIG.output"
@@ -12,7 +11,7 @@ object ConfigConstants {
   val CUSTOMERS_PHONES_CONFIG: String = s"$OUTPUT_CONFIG.t_fdev_customersphones"
 
   val JWK_DATE: String = s"$PARAMS_CONFIG.jwk_date"
-
+  val DEV_NAME: String = s"$PARAMS_CONFIG.devName"
 
   val PATH: String = "path"
   val TYPE: String = "type"
