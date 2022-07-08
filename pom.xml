@@ -58,5 +58,6 @@
     <modules>
         <module>developModule</module>
         <module>testAT</module>
+        <module>helloWorld</module>
     </modules>
 </project>
