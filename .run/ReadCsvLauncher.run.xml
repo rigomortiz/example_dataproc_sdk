@@ -1,0 +1,21 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="ReadCsvLauncher" type="Application" factoryName="Application">
+    <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <envs>
+      <env name="MESSAGE" value="&quot;Hello world!&quot;" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="com.bbva.datioamproduct.fdevdatio.ReadCsvLauncher" />
+    <module name="readCSV" />
+    <option name="PROGRAM_PARAMETERS" value="readCsv/src/test/resources/config/application.local.conf" />
+    <option name="VM_PARAMETERS" value="-Dspark.master=local[*]" />
+    <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+      <option name="credential" />
+      <option name="region" />
+      <option name="useCurrentConnection" value="false" />
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
