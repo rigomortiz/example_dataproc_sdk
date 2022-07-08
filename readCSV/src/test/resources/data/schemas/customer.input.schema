@@ -34,7 +34,7 @@
   },
   {
     "name": "purchase_year",
-    "type": "int",
+    "type": "string",
     "legacyName": "purchase_year",
     "logicalFormat": "ALPHANUMERIC(4)",
     "deleted": false,
@@ -61,7 +61,7 @@
   },
   {
     "name": "purchase_online",
-    "type": "boolean",
+    "type": "string",
     "legacyName": "purchase_online",
     "logicalFormat": "ALPHANUMERIC(5)",
     "deleted": false,

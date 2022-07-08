@@ -1,6 +1,6 @@
 package com.bbva.datioamproduct.fdevdatio
 
-import com.bbva.datioamproduct.fdevdatio.common.ConfigConstants.{BIKES_CONFIG, MESSAGE}
+import com.bbva.datioamproduct.fdevdatio.common.ConfigConstants.{BIKES_CONFIG, CUSTOMER_CONFIG, MESSAGE}
 import com.bbva.datioamproduct.fdevdatio.utils.IOUtils
 import com.datio.dataproc.sdk.api.SparkProcess
 import com.datio.dataproc.sdk.api.context.RuntimeContext
@@ -22,11 +22,18 @@ class ReadCsvProcess extends SparkProcess with IOUtils {
       val config: Config = runtimeContext.getConfig
       val message: String = config.getString(MESSAGE)
       logger.info(s"Message: $message")
-
+      logger.info("Read Bikes CSV")
       val bikesConfig = config.getConfig(BIKES_CONFIG)
-      val df:DataFrame = read(bikesConfig)
-      df.printSchema()
-      df.show(false)
+      val dfBikes:DataFrame = read(bikesConfig)
+      dfBikes.printSchema()
+      dfBikes.show(false)
+
+      logger.info("Read Customer CSV")
+      val customerConfig = config.getConfig(CUSTOMER_CONFIG)
+      val dfCustomer:DataFrame = read(customerConfig)
+      dfCustomer.printSchema()
+      dfCustomer.show(false)
+
     } match {
       case Success(_) => 0
       case Failure(ex) => {

@@ -24,6 +24,7 @@ trait IOUtils {
           .datioSchema(schemaBikes)
           .csv(path)
       }
+      case _@inputType => throw new Exception(s"Formato de archivo no soportado: $inputType")
     }
   }
 }

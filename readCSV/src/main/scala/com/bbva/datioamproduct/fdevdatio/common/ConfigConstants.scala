@@ -6,6 +6,7 @@ object ConfigConstants {
   val MESSAGE: String = s"$PARAMS.message"
   val INPUT_CONFIG: String = s"$ROOT_CONFIG.input"
   val BIKES_CONFIG: String = s"$INPUT_CONFIG.bikes"
+  val CUSTOMER_CONFIG: String = s"$INPUT_CONFIG.customer"
   val TYPE: String = s"type"
   val PATH: String = "path"
   val SCHEMA: String = s"schema.$PATH"
