@@ -6,6 +6,7 @@ import com.bbva.datioamproduct.fdevdatio.common.namings.input.Customer.{Name, Pu
 import org.apache.spark.sql.Column
 import org.apache.spark.sql.expressions.{UserDefinedFunction, Window, WindowSpec}
 import org.apache.spark.sql.functions.{count, sum, udf, when}
+import org.apache.spark.sql.types.{DecimalType, IntegerType}
 
 object CustomerBikes {
   private val windowByName: WindowSpec = Window.partitionBy(Name.column)
@@ -16,7 +17,7 @@ object CustomerBikes {
     def apply(): Column = {
       // sin orderBy cuenta todos los registros
       windowByName.orderBy(PurchaseYear.column)
-      count(Name.column) over windowByName alias name
+      count(Name.column) over windowByName cast IntegerType alias name
     }
   }
 
@@ -35,7 +36,7 @@ object CustomerBikes {
        *
        * collect_list
        */
-      sum(Price.column) over windowByName alias name
+      sum(Price.column) over windowByName cast IntegerType alias name
     }
   }
 
@@ -45,22 +46,22 @@ object CustomerBikes {
     def apply(): Column = {
       sum(
         when(PurchaseOnline.column === 1, 1) otherwise 0
-      ) over windowByName alias name
+      ) over windowByName cast IntegerType alias name
     }
   }
 
   case object TotalInPlace extends Field {
-    override lazy val name: String = "total_in_place"
+    override lazy val name: String = "total_inplace"
 
     def apply(): Column = {
       sum(
         when(PurchaseOnline.column =!= 1, 0) otherwise 1
-      ) over windowByName alias name
+      ) over windowByName cast IntegerType alias name
     }
   }
 
   case object IsOnlineCustomer extends Field {
-    override val name: String = "in_line_customer"
+    override val name: String = "is_online_customer"
 
     def apply(): Column = {
       when(TotalOnline.column > TotalInPlace.column, true) otherwise false alias name
@@ -68,7 +69,7 @@ object CustomerBikes {
   }
 
   case object IsInPlaceCustomer extends Field {
-    override val name: String = "is_in_place_customer"
+    override val name: String = "is_inplace_customer"
 
     def apply(): Column = {
       when(TotalOnline.column < TotalInPlace.column, true) otherwise false alias name
@@ -89,8 +90,7 @@ object CustomerBikes {
     def apply(): Column = {
       when(IsOnlineCustomer.column, TotalSpent.column * 0.10)
         . when(IsInPlaceCustomer.column, TotalSpent.column * 0.05)
-        .otherwise(TotalSpent.column * 0.08)
-        .alias(name)
+        .otherwise(TotalSpent.column * 0.08) cast DecimalType(12, 2) alias name
     }
   }
 
