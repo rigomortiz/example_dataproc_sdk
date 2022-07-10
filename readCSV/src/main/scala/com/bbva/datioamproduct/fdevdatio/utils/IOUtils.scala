@@ -16,12 +16,12 @@ trait IOUtils {
       case "parquet" => datioSparkSession.read().parquet(path)
       case "csv" => {
         val schemaPath:String = inputConfig.getString(SCHEMA)
-        val schemaBikes: DatioSchema = DatioSchema.getBuilder.fromURI(URI.create(schemaPath)).build()
+        val schema: DatioSchema = DatioSchema.getBuilder.fromURI(URI.create(schemaPath)).build()
         val delimiter: String = inputConfig.getString(DELIMITER)
         datioSparkSession.read()
           .option(HEADERS, true.toString)
           .option(DELIMITER, delimiter)
-          .datioSchema(schemaBikes)
+          .datioSchema(schema)
           .csv(path)
       }
       case _@inputType => throw new Exception(s"Formato de archivo no soportado: $inputType")

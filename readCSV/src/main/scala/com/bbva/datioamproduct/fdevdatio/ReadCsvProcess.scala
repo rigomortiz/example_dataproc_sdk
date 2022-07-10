@@ -1,14 +1,14 @@
 package com.bbva.datioamproduct.fdevdatio
 
 import com.bbva.datioamproduct.fdevdatio.common.ConfigConstants.{BIKES_CONFIG, CUSTOMER_CONFIG, MESSAGE}
-import com.bbva.datioamproduct.fdevdatio.common.StaticValues.{ABR, AMERICA, COUNTRY, MESSAGE_COL, PURCHASE_CONTINENT, PURCHASE_ONLINE}
+import com.bbva.datioamproduct.fdevdatio.common.namings.output.CustomerBikes.{IsHybridCustomer, IsInPlaceCustomer, IsOnlineCustomer, NBikes, TotalInPlace, TotalOnline, TotalRefund, TotalSpent}
+import com.bbva.datioamproduct.fdevdatio.transformations.Transformations.{CustomerBikes, CustomerDf}
 import com.bbva.datioamproduct.fdevdatio.utils.IOUtils
 import com.datio.dataproc.sdk.api.SparkProcess
 import com.datio.dataproc.sdk.api.context.RuntimeContext
 import com.datio.dataproc.sdk.datiosparksession.DatioSparkSession
 import com.typesafe.config.Config
-import org.apache.spark.sql.{Column, DataFrame}
-import org.apache.spark.sql.functions.{col, lit, lower}
+import org.apache.spark.sql.DataFrame
 import org.slf4j.{Logger, LoggerFactory}
 
 import scala.util.{Failure, Success, Try}
@@ -35,28 +35,22 @@ class ReadCsvProcess extends SparkProcess with IOUtils {
       val customerDf:DataFrame = read(customerConfig)
       customerDf.printSchema()
 
-      val column:Column = lit(message).alias("message")
-      val columns: Array[Column] = customerDf.columns.map(s => col(s))
-      /*
-       +: element concat array
-       :+ array concat element
-       ++ concat
-
-       Comparaciones
-       === igual que
-       =!= diferente
-
-       */
-      // val lowerCountryColumn = lower(col("country")).alias("abr")
-      customerDf
-        .select(customerDf.columns.map {
-          case name: String if name == COUNTRY => lower(col(COUNTRY)).alias(ABR)
-          case _@name => col(name)
-        } :+ lit(message).alias(MESSAGE_COL) :_*)
-        .filter(col(PURCHASE_CONTINENT) === AMERICA)
-        .drop(col(PURCHASE_ONLINE))
+      val outputCustomerDF = customerDf
+        //.rule(message)
+        .ruleTwo()
+        .joinBikes(bikesDf)
+        .addColumns(
+          NBikes(),
+          TotalSpent(),
+          TotalOnline(),
+          TotalInPlace(),
+          IsInPlaceCustomer(),
+          IsOnlineCustomer(),
+          IsHybridCustomer(),
+          TotalRefund()
+        )
+        .replacePurchaseCity
         .show(false)
-
 
     } match {
       case Success(_) => 0
