@@ -41,14 +41,14 @@ trait IOUtils {
     val path: String = outputConfig.getString(PATH)
 
     val schemaPath: String = outputConfig.getString(SCHEMA)
-    val icludeMetadata: Boolean = outputConfig.getBoolean(INCLUDE_METADATA_FIELDS)
-    val icludeDeletedFields: Boolean = outputConfig.getBoolean(INCLUDE_DELETED_FIELDS)
+    val includeMetadata: Boolean = outputConfig.getBoolean(INCLUDE_METADATA_FIELDS)
+    val includeDeletedFields: Boolean = outputConfig.getBoolean(INCLUDE_DELETED_FIELDS)
     val coalesceNumber: Int = outputConfig.getInt(COALESCE)
 
     val schema: DatioSchema = DatioSchema.getBuilder
       .fromURI(URI.create(schemaPath))
-      .withMetadataFields(icludeMetadata)
-      .withDeletedFields(icludeDeletedFields)
+      .withMetadataFields(includeMetadata)
+      .withDeletedFields(includeDeletedFields)
       .build()
 
     val partitions: Array[String] = outputConfig.getStringList(PARTITIONS).toArray.map(_.toString)

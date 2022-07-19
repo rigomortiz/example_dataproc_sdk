@@ -1,7 +1,8 @@
 package com.bbva.datioamproduct.fdevdatio.transformations
 
-import com.bbva.datioamproduct.fdevdatio.common.StaticValues.{ABR, AMERICA, MESSAGE_COL, TOKYO}
-import com.bbva.datioamproduct.fdevdatio.common.namings.input.Bikes.BikeId
+import com.bbva.datioamproduct.fdevdatio.common.ConfigConstants.{ABR, MESSAGE_COL}
+import com.bbva.datioamproduct.fdevdatio.common.StaticValues.{AMERICA, TOKYO}
+import com.bbva.datioamproduct.fdevdatio.common.namings.input.Bikes.{BikeId, Size}
 import com.bbva.datioamproduct.fdevdatio.common.namings.input.Customer.{Country, PurchaseContinent, PurchaseOnline, PurchaseYear}
 import com.bbva.datioamproduct.fdevdatio.common.namings.output.CustomerBikes.PurchaseCity
 import org.apache.spark.sql.{Column, DataFrame}
@@ -12,31 +13,35 @@ import java.util.{Calendar, Date}
 
 object Transformations {
   implicit class BikesDf(dataFrame: DataFrame) {
-    ???
+    def filterSize(): DataFrame = {
+      dataFrame.filter(Size.column === "M" || Size.column === "L")
+    }
   }
 
   implicit class CustomerDf(df: DataFrame) {
-    def rule(message: String):DataFrame = {
+    /**
+     * Add text into column message
+     * @param message String message
+     * @return DataFrame
+     */
+    def addMessage(message: String): DataFrame = {
       /*
       +: element concat array
       :+ array concat element
       ++ concat
+       */
+      df.select(df.columns.map(s => col(s)) :+ lit(message).alias(MESSAGE_COL) :_*)
+    }
 
-      Comparaciones
-      === igual que
-      =!= diferente
-
-      */
-      // val lowerCountryColumn = lower(col("country")).alias("abr")
-      val column:Column = lit(message).alias("message")
-      val columns: Array[Column] = df.columns.map(s => col(s))
-
+    /**
+     * Lower column country
+     * @return DataFrame
+     */
+    def lowerCountry(): DataFrame = {
       df.select(df.columns.map {
-        case name: String if name == Country.name => lower(Country.column).alias(ABR)
+        case name: String if name == Country.name => lower(Country.column).alias(Country.name)
         case _@name => col(name)
-      } :+ lit(message).alias(MESSAGE_COL) :_*)
-        .filter(PurchaseContinent.column === AMERICA)
-        .drop(PurchaseOnline.column)
+      } :_*)
     }
 
     /**
@@ -45,7 +50,7 @@ object Transformations {
      * Nota current_date no debe de ser un valor en duro
      * @return
      */
-    def ruleTwo(): DataFrame = {
+    def filterYearAndCity(): DataFrame = {
       df
         .filter(PurchaseYear.column > Calendar.getInstance().get(Calendar.YEAR) - 10)
         .filter(PurchaseCity.column =!= TOKYO)
@@ -62,11 +67,10 @@ object Transformations {
       // df.join(bikesDf, df(BikeId.name) === bikesDf(BikeId.name), "inner")
       // df.join(bikesDf, Seq(BikeId.name), "inner")
       df.join(bikesDf, BikeId.name)
-
     }
   }
 
-  implicit class CustomerBikes(df: DataFrame) {
+  implicit class CustomerBikesDf(df: DataFrame) {
     def addColumns(columns: Column*): DataFrame = {
       columns.toList match {
         case Nil => df

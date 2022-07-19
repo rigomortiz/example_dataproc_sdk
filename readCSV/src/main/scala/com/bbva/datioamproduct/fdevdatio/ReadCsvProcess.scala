@@ -1,12 +1,13 @@
 package com.bbva.datioamproduct.fdevdatio
 
-import com.bbva.datioamproduct.fdevdatio.common.ConfigConstants.{BIKES_CONFIG, CUSTOMER_BIKES_CONFIG, CUSTOMER_CONFIG, MESSAGE}
-import com.bbva.datioamproduct.fdevdatio.common.namings.output.CustomerBikes.{IsHybridCustomer, IsInPlaceCustomer, IsOnlineCustomer, NBikes, TotalInPlace, TotalOnline, TotalRefund, TotalSpent}
-import com.bbva.datioamproduct.fdevdatio.transformations.Transformations.{CustomerBikes, CustomerDf}
+import com.bbva.datioamproduct.fdevdatio.common.ConfigConstants.{BIKES_CONFIG, CUSTOMER_BIKES_CONFIG, CUSTOMER_CONFIG,
+  MESSAGE}
+import com.bbva.datioamproduct.fdevdatio.common.namings.output.CustomerBikes.{IsHybridCustomer, IsInPlaceCustomer,
+  IsOnlineCustomer, NBikes, TotalInPlace, TotalOnline, TotalRefund, TotalSpent}
+import com.bbva.datioamproduct.fdevdatio.transformations.Transformations.{CustomerBikesDf, CustomerDf, BikesDf}
 import com.bbva.datioamproduct.fdevdatio.utils.IOUtils
 import com.datio.dataproc.sdk.api.SparkProcess
 import com.datio.dataproc.sdk.api.context.RuntimeContext
-import com.datio.dataproc.sdk.datiosparksession.DatioSparkSession
 import com.datio.dataproc.sdk.schema.exception.DataprocSchemaException.InvalidDatasetException
 import com.typesafe.config.Config
 import org.apache.spark.sql.DataFrame
@@ -29,18 +30,20 @@ class ReadCsvProcess extends SparkProcess with IOUtils {
       val bikesConfig = config.getConfig(BIKES_CONFIG)
       val bikesDf:DataFrame = read(bikesConfig)
       bikesDf.printSchema()
-      bikesDf.show(false)
+      val outputBikesDf = bikesDf.filterSize()
+      outputBikesDf.show(numRows = 50, truncate = false)
 
       logger.info(">>> Read Customer CSV")
       val customerConfig = config.getConfig(CUSTOMER_CONFIG)
       val customerDf:DataFrame = read(customerConfig)
       customerDf.printSchema()
 
-      logger.info(">>> Transforms")
       val outputCustomerDF: DataFrame = customerDf
-        //.rule(message)
-        .ruleTwo()
-        .joinBikes(bikesDf)
+        .addMessage(message)
+        .lowerCountry()
+        .filterYearAndCity()
+        .joinBikes(outputBikesDf)
+        .replacePurchaseCity
         .addColumns(
           NBikes(),
           TotalSpent(),
@@ -51,11 +54,12 @@ class ReadCsvProcess extends SparkProcess with IOUtils {
           IsHybridCustomer(),
           TotalRefund()
         )
-        .replacePurchaseCity
+
+      outputCustomerDF.show(numRows = 50, truncate = false)
 
       logger.info(">>> Save output")
       val customerBikesConfig: Config = config.getConfig(CUSTOMER_BIKES_CONFIG)
-      outputCustomerDF.show(false)
+      outputCustomerDF.show(numRows = 50, truncate = false)
       write(outputCustomerDF, customerBikesConfig)
 
     } match {

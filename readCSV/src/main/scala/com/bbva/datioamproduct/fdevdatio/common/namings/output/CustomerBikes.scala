@@ -100,7 +100,11 @@ object CustomerBikes {
     def apply(): Column = {
       val f: UserDefinedFunction = udf {
         purchaseCity: String => {
-          purchaseCity.toUpperCase()
+          if (purchaseCity != null) {
+            purchaseCity.toUpperCase()
+          } else {
+            "UNKNOWN"
+          }
         }
       }
       f(PurchaseCity.column).alias(name)

@@ -216,7 +216,15 @@
     "deleted": false,
     "metadata": false,
     "default": ""
+  },
+  {
+    "name": "message",
+    "type": "string",
+    "legacyName": "message",
+    "logicalFormat": "ALPHANUMERIC(255)",
+    "deleted": false,
+    "metadata": false,
+    "default": ""
   }
-
   ]
 }

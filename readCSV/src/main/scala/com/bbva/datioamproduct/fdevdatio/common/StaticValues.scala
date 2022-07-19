@@ -6,6 +6,5 @@ object StaticValues {
   val TOKYO: String = "Tokyo"
   val PURCHASE_CONTINENT: String = "purchase_continent"
   val PURCHASE_ONLINE: String = "purchase_online"
-  val MESSAGE_COL:String = "message"
-  val ABR: String = "abr"
+
 }
