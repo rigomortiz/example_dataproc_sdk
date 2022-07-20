@@ -1,13 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="HelloWorld" type="Application" factoryName="Application">
-    <envs>
-      <env name="MESSAGE" value="&quot;Hello world!&quot;" />
-    </envs>
-    <option name="MAIN_CLASS_NAME" value="com.bbva.datioamproduct.fdevdatio.HelloWorldLauncher" />
-    <module name="helloWorld" />
-    <option name="PROGRAM_PARAMETERS" value="helloWorld/src/test/resources/config/application.local.conf" />
-    <option name="VM_PARAMETERS" value="-Dspark.master=local[*]" />
-    <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+  <configuration default="false" name="RunCukesTest project" type="JUnit" factoryName="JUnit">
+    <module name="testAT" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.bbva.datioamproduct.fdevdatio.*" />
@@ -19,6 +12,10 @@
       <option name="region" />
       <option name="useCurrentConnection" value="false" />
     </extension>
+    <option name="PACKAGE_NAME" value="com.bbva.datioamproduct.fdevdatio" />
+    <option name="MAIN_CLASS_NAME" value="com.bbva.datioamproduct.fdevdatio.RunCukesTest" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="class" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

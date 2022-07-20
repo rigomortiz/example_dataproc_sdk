@@ -6,7 +6,7 @@
       <env name="MESSAGE" value="&quot;Hello world!&quot;" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.bbva.datioamproduct.fdevdatio.ReadCsvLauncher" />
-    <module name="readCSV" />
+    <module name="develop" />
     <option name="PROGRAM_PARAMETERS" value="readCsv/src/test/resources/config/application.local.conf" />
     <option name="VM_PARAMETERS" value="-Dspark.master=local[*]" />
     <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">

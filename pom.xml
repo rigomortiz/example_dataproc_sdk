@@ -56,10 +56,7 @@
     </build>
 
     <modules>
-        <!-- <module>developModule</module> -->
-        <!-- <module>testAT</module> -->
-        <!-- <module>helloWorld</module> -->
-        <module>readCSV</module>
-        <module>projectAT</module>
+        <module>develop</module>
+        <module>testAT</module>
     </modules>
 </project>
