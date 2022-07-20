@@ -10,7 +10,6 @@ import com.bbva.datioamproduct.fdevdatio.testUtils.ContextProvider
 import com.bbva.datioamproduct.fdevdatio.utils.IOUtils
 import org.apache.spark.sql.DataFrame
 import com.bbva.datioamproduct.fdevdatio.transformations.Transformations.{BikesDf, CustomerBikesDf, CustomerDf}
-import org.apache.spark.sql.functions.col
 
 
 class CustomerDsTest extends ContextProvider with IOUtils {
