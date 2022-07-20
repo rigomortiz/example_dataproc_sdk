@@ -7,6 +7,7 @@
     <module name="helloWorld" />
     <option name="PROGRAM_PARAMETERS" value="helloWorld/src/test/resources/config/application.local.conf" />
     <option name="VM_PARAMETERS" value="-Dspark.master=local[*]" />
+    <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.bbva.datioamproduct.fdevdatio.*" />
